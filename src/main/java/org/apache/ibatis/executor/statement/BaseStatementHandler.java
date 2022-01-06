@@ -15,10 +15,6 @@
  */
 package org.apache.ibatis.executor.statement;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
@@ -32,6 +28,10 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author Clinton Begin
@@ -89,10 +89,12 @@ public abstract class BaseStatementHandler implements StatementHandler {
       setStatementTimeout(statement, transactionTimeout);
       setFetchSize(statement);
       return statement;
-    } catch (SQLException e) {
+    }
+    catch (SQLException e) {
       closeStatement(statement);
       throw e;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       closeStatement(statement);
       throw new ExecutorException("Error preparing statement.  Cause: " + e, e);
     }
@@ -104,7 +106,8 @@ public abstract class BaseStatementHandler implements StatementHandler {
     Integer queryTimeout = null;
     if (mappedStatement.getTimeout() != null) {
       queryTimeout = mappedStatement.getTimeout();
-    } else if (configuration.getDefaultStatementTimeout() != null) {
+    }
+    else if (configuration.getDefaultStatementTimeout() != null) {
       queryTimeout = configuration.getDefaultStatementTimeout();
     }
     if (queryTimeout != null) {
@@ -130,7 +133,8 @@ public abstract class BaseStatementHandler implements StatementHandler {
       if (statement != null) {
         statement.close();
       }
-    } catch (SQLException e) {
+    }
+    catch (SQLException e) {
       //ignore
     }
   }

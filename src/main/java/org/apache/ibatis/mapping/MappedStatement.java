@@ -15,10 +15,6 @@
  */
 package org.apache.ibatis.mapping;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
@@ -27,6 +23,10 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Clinton Begin
@@ -62,7 +62,7 @@ public final class MappedStatement {
   }
 
   public static class Builder {
-    private MappedStatement mappedStatement = new MappedStatement();
+    private final MappedStatement mappedStatement = new MappedStatement();
 
     public Builder(Configuration configuration, String id, SqlSource sqlSource, SqlCommandType sqlCommandType) {
       mappedStatement.configuration = configuration;
@@ -177,8 +177,7 @@ public final class MappedStatement {
     /**
      * Resul sets.
      *
-     * @param resultSet
-     *          the result set
+     * @param resultSet the result set
      * @return the builder
      * @deprecated Use {@link #resultSets}
      */
@@ -325,7 +324,8 @@ public final class MappedStatement {
   private static String[] delimitedStringToArray(String in) {
     if (in == null || in.trim().length() == 0) {
       return null;
-    } else {
+    }
+    else {
       return in.split(",");
     }
   }

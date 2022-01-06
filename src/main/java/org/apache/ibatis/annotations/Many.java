@@ -15,19 +15,19 @@
  */
 package org.apache.ibatis.annotations;
 
+import org.apache.ibatis.mapping.FetchType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apache.ibatis.mapping.FetchType;
-
 /**
  * The annotation that specify the nested statement for retrieving collections.
  *
+ * @author Clinton Begin
  * @see Result
  * @see Results
- * @author Clinton Begin
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

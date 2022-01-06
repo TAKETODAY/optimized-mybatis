@@ -15,16 +15,16 @@
  */
 package org.apache.ibatis.reflection;
 
+import org.apache.ibatis.reflection.invoker.GetFieldInvoker;
+import org.apache.ibatis.reflection.invoker.Invoker;
+import org.apache.ibatis.reflection.invoker.MethodInvoker;
+import org.apache.ibatis.reflection.property.PropertyTokenizer;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
-
-import org.apache.ibatis.reflection.invoker.GetFieldInvoker;
-import org.apache.ibatis.reflection.invoker.Invoker;
-import org.apache.ibatis.reflection.invoker.MethodInvoker;
-import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
 /**
  * @author Clinton Begin
@@ -73,7 +73,8 @@ public class MetaClass {
     if (prop.hasNext()) {
       MetaClass metaProp = metaClassForProperty(prop.getName());
       return metaProp.getSetterType(prop.getChildren());
-    } else {
+    }
+    else {
       return reflector.getSetterType(prop.getName());
     }
   }
@@ -103,7 +104,8 @@ public class MetaClass {
           returnType = actualTypeArguments[0];
           if (returnType instanceof Class) {
             type = (Class<?>) returnType;
-          } else if (returnType instanceof ParameterizedType) {
+          }
+          else if (returnType instanceof ParameterizedType) {
             type = (Class<?>) ((ParameterizedType) returnType).getRawType();
           }
         }
@@ -120,13 +122,15 @@ public class MetaClass {
         declaredMethod.setAccessible(true);
         Method method = (Method) declaredMethod.get(invoker);
         return TypeParameterResolver.resolveReturnType(method, reflector.getType());
-      } else if (invoker instanceof GetFieldInvoker) {
+      }
+      else if (invoker instanceof GetFieldInvoker) {
         Field declaredField = GetFieldInvoker.class.getDeclaredField("field");
         declaredField.setAccessible(true);
         Field field = (Field) declaredField.get(invoker);
         return TypeParameterResolver.resolveFieldType(field, reflector.getType());
       }
-    } catch (NoSuchFieldException | IllegalAccessException e) {
+    }
+    catch (NoSuchFieldException | IllegalAccessException e) {
       // Ignored
     }
     return null;
@@ -138,10 +142,12 @@ public class MetaClass {
       if (reflector.hasSetter(prop.getName())) {
         MetaClass metaProp = metaClassForProperty(prop.getName());
         return metaProp.hasSetter(prop.getChildren());
-      } else {
+      }
+      else {
         return false;
       }
-    } else {
+    }
+    else {
       return reflector.hasSetter(prop.getName());
     }
   }
@@ -152,10 +158,12 @@ public class MetaClass {
       if (reflector.hasGetter(prop.getName())) {
         MetaClass metaProp = metaClassForProperty(prop);
         return metaProp.hasGetter(prop.getChildren());
-      } else {
+      }
+      else {
         return false;
       }
-    } else {
+    }
+    else {
       return reflector.hasGetter(prop.getName());
     }
   }
@@ -178,7 +186,8 @@ public class MetaClass {
         MetaClass metaProp = metaClassForProperty(propertyName);
         metaProp.buildProperty(prop.getChildren(), builder);
       }
-    } else {
+    }
+    else {
       String propertyName = reflector.findPropertyName(name);
       if (propertyName != null) {
         builder.append(propertyName);

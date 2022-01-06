@@ -50,7 +50,8 @@ public final class LogFactory {
   public static Log getLog(String logger) {
     try {
       return logConstructor.newInstance(logger);
-    } catch (Throwable t) {
+    }
+    catch (Throwable t) {
       throw new LogException("Error creating logger for logger " + logger + ".  Cause: " + t, t);
     }
   }
@@ -91,7 +92,8 @@ public final class LogFactory {
     if (logConstructor == null) {
       try {
         runnable.run();
-      } catch (Throwable t) {
+      }
+      catch (Throwable t) {
         // ignore
       }
     }
@@ -105,7 +107,8 @@ public final class LogFactory {
         log.debug("Logging initialized using '" + implClass + "' adapter.");
       }
       logConstructor = candidate;
-    } catch (Throwable t) {
+    }
+    catch (Throwable t) {
       throw new LogException("Error setting Log implementation.  Cause: " + t, t);
     }
   }

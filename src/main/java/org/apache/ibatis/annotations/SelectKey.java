@@ -15,14 +15,14 @@
  */
 package org.apache.ibatis.annotations;
 
+import org.apache.ibatis.mapping.StatementType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.apache.ibatis.mapping.StatementType;
 
 /**
  * The annotation that specify an SQL for retrieving a key value.
@@ -101,6 +101,7 @@ public @interface SelectKey {
 
   /**
    * The container annotation for {@link SelectKey}.
+   *
    * @author Kazuki Shimizu
    * @since 3.5.5
    */

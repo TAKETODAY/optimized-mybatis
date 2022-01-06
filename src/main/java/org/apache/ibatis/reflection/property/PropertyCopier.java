@@ -15,9 +15,9 @@
  */
 package org.apache.ibatis.reflection.property;
 
-import java.lang.reflect.Field;
-
 import org.apache.ibatis.reflection.Reflector;
+
+import java.lang.reflect.Field;
 
 /**
  * @author Clinton Begin
@@ -36,15 +36,18 @@ public final class PropertyCopier {
         try {
           try {
             field.set(destinationBean, field.get(sourceBean));
-          } catch (IllegalAccessException e) {
+          }
+          catch (IllegalAccessException e) {
             if (Reflector.canControlMemberAccessible()) {
               field.setAccessible(true);
               field.set(destinationBean, field.get(sourceBean));
-            } else {
+            }
+            else {
               throw e;
             }
           }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
           // Nothing useful to do, will only fail on final fields, which will be ignored.
         }
       }

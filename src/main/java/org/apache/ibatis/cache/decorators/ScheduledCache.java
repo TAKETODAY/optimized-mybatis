@@ -15,9 +15,9 @@
  */
 package org.apache.ibatis.cache.decorators;
 
-import java.util.concurrent.TimeUnit;
-
 import org.apache.ibatis.cache.Cache;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Clinton Begin

@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 /**
  * The annotation that indicate the method signature.
  *
- * @see Intercepts
  * @author Clinton Begin
+ * @see Intercepts
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -46,6 +46,7 @@ public @interface Signature {
 
   /**
    * Returns java types for method argument.
+   *
    * @return java types for method argument
    */
   Class<?>[] args();

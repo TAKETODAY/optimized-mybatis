@@ -15,14 +15,6 @@
  */
 package org.apache.ibatis.session.defaults;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.binding.BindingException;
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.exceptions.ExceptionFactory;
@@ -38,6 +30,14 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The default implementation for {@link SqlSession}.
@@ -76,9 +76,11 @@ public class DefaultSqlSession implements SqlSession {
     List<T> list = this.selectList(statement, parameter);
     if (list.size() == 1) {
       return list.get(0);
-    } else if (list.size() > 1) {
+    }
+    else if (list.size() > 1) {
       throw new TooManyResultsException("Expected one result (or null) to be returned by selectOne(), but found: " + list.size());
-    } else {
+    }
+    else {
       return null;
     }
   }
@@ -123,9 +125,11 @@ public class DefaultSqlSession implements SqlSession {
       Cursor<T> cursor = executor.queryCursor(ms, wrapCollection(parameter), rowBounds);
       registerCursor(cursor);
       return cursor;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error querying database.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -149,9 +153,11 @@ public class DefaultSqlSession implements SqlSession {
     try {
       MappedStatement ms = configuration.getMappedStatement(statement);
       return executor.query(ms, wrapCollection(parameter), rowBounds, handler);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error querying database.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -192,9 +198,11 @@ public class DefaultSqlSession implements SqlSession {
       dirty = true;
       MappedStatement ms = configuration.getMappedStatement(statement);
       return executor.update(ms, wrapCollection(parameter));
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error updating database.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -219,9 +227,11 @@ public class DefaultSqlSession implements SqlSession {
     try {
       executor.commit(isCommitOrRollbackRequired(force));
       dirty = false;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error committing transaction.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -236,9 +246,11 @@ public class DefaultSqlSession implements SqlSession {
     try {
       executor.rollback(isCommitOrRollbackRequired(force));
       dirty = false;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error rolling back transaction.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -247,9 +259,11 @@ public class DefaultSqlSession implements SqlSession {
   public List<BatchResult> flushStatements() {
     try {
       return executor.flushStatements();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error flushing statements.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -260,7 +274,8 @@ public class DefaultSqlSession implements SqlSession {
       executor.close(isCommitOrRollbackRequired(false));
       closeCursors();
       dirty = false;
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -270,7 +285,8 @@ public class DefaultSqlSession implements SqlSession {
       for (Cursor<?> cursor : cursorList) {
         try {
           cursor.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
           throw ExceptionFactory.wrapException("Error closing cursor.  Cause: " + e, e);
         }
       }
@@ -292,7 +308,8 @@ public class DefaultSqlSession implements SqlSession {
   public Connection getConnection() {
     try {
       return executor.getTransaction().getConnection();
-    } catch (SQLException e) {
+    }
+    catch (SQLException e) {
       throw ExceptionFactory.wrapException("Error getting a new connection.  Cause: " + e, e);
     }
   }

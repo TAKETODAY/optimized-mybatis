@@ -24,6 +24,7 @@ public class Jdk {
 
   /**
    * <code>true</code> if <code>java.lang.reflect.Parameter</code> is available.
+   *
    * @deprecated Since 3.5.0, Will remove this field at feature(next major version up)
    */
   @Deprecated
@@ -34,7 +35,8 @@ public class Jdk {
     try {
       Resources.classForName("java.lang.reflect.Parameter");
       available = true;
-    } catch (ClassNotFoundException e) {
+    }
+    catch (ClassNotFoundException e) {
       // ignore
     }
     parameterExists = available;
@@ -51,7 +53,8 @@ public class Jdk {
     try {
       Resources.classForName("java.time.Clock");
       available = true;
-    } catch (ClassNotFoundException e) {
+    }
+    catch (ClassNotFoundException e) {
       // ignore
     }
     dateAndTimeApiExists = available;
@@ -68,7 +71,8 @@ public class Jdk {
     try {
       Resources.classForName("java.util.Optional");
       available = true;
-    } catch (ClassNotFoundException e) {
+    }
+    catch (ClassNotFoundException e) {
       // ignore
     }
     optionalExists = available;

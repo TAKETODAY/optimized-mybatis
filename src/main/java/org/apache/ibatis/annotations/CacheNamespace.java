@@ -15,15 +15,15 @@
  */
 package org.apache.ibatis.annotations;
 
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.cache.decorators.LruCache;
+import org.apache.ibatis.cache.impl.PerpetualCache;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.cache.decorators.LruCache;
-import org.apache.ibatis.cache.impl.PerpetualCache;
 
 /**
  * The annotation that specify to use cache on namespace(e.g. mapper interface).

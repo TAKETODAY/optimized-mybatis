@@ -48,11 +48,13 @@ public class GenericTokenParser {
         // this open token is escaped. remove the backslash and continue.
         builder.append(src, offset, start - offset - 1).append(openToken);
         offset = start + openToken.length();
-      } else {
+      }
+      else {
         // found open token. let's search close token.
         if (expression == null) {
           expression = new StringBuilder();
-        } else {
+        }
+        else {
           expression.setLength(0);
         }
         builder.append(src, offset, start - offset);
@@ -64,7 +66,8 @@ public class GenericTokenParser {
             expression.append(src, offset, end - offset - 1).append(closeToken);
             offset = end + closeToken.length();
             end = text.indexOf(closeToken, offset);
-          } else {
+          }
+          else {
             expression.append(src, offset, end - offset);
             break;
           }
@@ -73,13 +76,15 @@ public class GenericTokenParser {
           // close token was not found.
           builder.append(src, start, src.length - start);
           offset = src.length;
-        } else {
+        }
+        else {
           builder.append(handler.handleToken(expression.toString()));
           offset = end + closeToken.length();
         }
       }
       start = text.indexOf(openToken, offset);
-    } while (start > -1);
+    }
+    while (start > -1);
     if (offset < src.length) {
       builder.append(src, offset, src.length - offset);
     }

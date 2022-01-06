@@ -15,19 +15,18 @@
  */
 package org.apache.ibatis.transaction.jdbc;
 
-import java.sql.Connection;
-
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.TransactionIsolationLevel;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
+
+import java.sql.Connection;
+
+import javax.sql.DataSource;
 
 /**
  * Creates {@link JdbcTransaction} instances.
  *
  * @author Clinton Begin
- *
  * @see JdbcTransaction
  */
 public class JdbcTransactionFactory implements TransactionFactory {

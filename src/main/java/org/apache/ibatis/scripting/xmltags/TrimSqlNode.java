@@ -15,14 +15,14 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
+import org.apache.ibatis.session.Configuration;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import org.apache.ibatis.session.Configuration;
 
 /**
  * @author Clinton Begin
@@ -70,7 +70,7 @@ public class TrimSqlNode implements SqlNode {
   }
 
   private class FilteredDynamicContext extends DynamicContext {
-    private DynamicContext delegate;
+    private final DynamicContext delegate;
     private boolean prefixApplied;
     private boolean suffixApplied;
     private StringBuilder sqlBuffer;

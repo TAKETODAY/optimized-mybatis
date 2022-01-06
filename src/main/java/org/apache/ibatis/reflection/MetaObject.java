@@ -15,10 +15,6 @@
  */
 package org.apache.ibatis.reflection;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.reflection.wrapper.BeanWrapper;
@@ -26,6 +22,10 @@ import org.apache.ibatis.reflection.wrapper.CollectionWrapper;
 import org.apache.ibatis.reflection.wrapper.MapWrapper;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -46,13 +46,17 @@ public class MetaObject {
 
     if (object instanceof ObjectWrapper) {
       this.objectWrapper = (ObjectWrapper) object;
-    } else if (objectWrapperFactory.hasWrapperFor(object)) {
+    }
+    else if (objectWrapperFactory.hasWrapperFor(object)) {
       this.objectWrapper = objectWrapperFactory.getWrapperFor(this, object);
-    } else if (object instanceof Map) {
+    }
+    else if (object instanceof Map) {
       this.objectWrapper = new MapWrapper(this, (Map) object);
-    } else if (object instanceof Collection) {
+    }
+    else if (object instanceof Collection) {
       this.objectWrapper = new CollectionWrapper(this, (Collection) object);
-    } else {
+    }
+    else {
       this.objectWrapper = new BeanWrapper(this, object);
     }
   }
@@ -60,7 +64,8 @@ public class MetaObject {
   public static MetaObject forObject(Object object, ObjectFactory objectFactory, ObjectWrapperFactory objectWrapperFactory, ReflectorFactory reflectorFactory) {
     if (object == null) {
       return SystemMetaObject.NULL_META_OBJECT;
-    } else {
+    }
+    else {
       return new MetaObject(object, objectFactory, objectWrapperFactory, reflectorFactory);
     }
   }
@@ -115,10 +120,12 @@ public class MetaObject {
       MetaObject metaValue = metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         return null;
-      } else {
+      }
+      else {
         return metaValue.getValue(prop.getChildren());
       }
-    } else {
+    }
+    else {
       return objectWrapper.get(prop);
     }
   }
@@ -131,12 +138,14 @@ public class MetaObject {
         if (value == null) {
           // don't instantiate child path if value is null
           return;
-        } else {
+        }
+        else {
           metaValue = objectWrapper.instantiatePropertyValue(name, prop, objectFactory);
         }
       }
       metaValue.setValue(prop.getChildren(), value);
-    } else {
+    }
+    else {
       objectWrapper.set(prop, value);
     }
   }

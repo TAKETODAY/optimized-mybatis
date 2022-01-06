@@ -33,7 +33,6 @@ public interface Cursor<T> extends Closeable, Iterable<T> {
   boolean isOpen();
 
   /**
-   *
    * @return true if the cursor is fully consumed and has returned all elements matching the query.
    */
   boolean isConsumed();

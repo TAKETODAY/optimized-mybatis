@@ -15,10 +15,10 @@
  */
 package org.apache.ibatis.reflection.invoker;
 
+import org.apache.ibatis.reflection.Reflector;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.apache.ibatis.reflection.Reflector;
 
 /**
  * @author Clinton Begin
@@ -33,7 +33,8 @@ public class MethodInvoker implements Invoker {
 
     if (method.getParameterTypes().length == 1) {
       type = method.getParameterTypes()[0];
-    } else {
+    }
+    else {
       type = method.getReturnType();
     }
   }
@@ -42,11 +43,13 @@ public class MethodInvoker implements Invoker {
   public Object invoke(Object target, Object[] args) throws IllegalAccessException, InvocationTargetException {
     try {
       return method.invoke(target, args);
-    } catch (IllegalAccessException e) {
+    }
+    catch (IllegalAccessException e) {
       if (Reflector.canControlMemberAccessible()) {
         method.setAccessible(true);
         return method.invoke(target, args);
-      } else {
+      }
+      else {
         throw e;
       }
     }

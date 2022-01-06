@@ -27,27 +27,27 @@ public class ShortTypeHandler extends BaseTypeHandler<Short> {
 
   @Override
   public void setNonNullParameter(PreparedStatement ps, int i, Short parameter, JdbcType jdbcType)
-      throws SQLException {
+          throws SQLException {
     ps.setShort(i, parameter);
   }
 
   @Override
   public Short getNullableResult(ResultSet rs, String columnName)
-      throws SQLException {
+          throws SQLException {
     short result = rs.getShort(columnName);
     return result == 0 && rs.wasNull() ? null : result;
   }
 
   @Override
   public Short getNullableResult(ResultSet rs, int columnIndex)
-      throws SQLException {
+          throws SQLException {
     short result = rs.getShort(columnIndex);
     return result == 0 && rs.wasNull() ? null : result;
   }
 
   @Override
   public Short getNullableResult(CallableStatement cs, int columnIndex)
-      throws SQLException {
+          throws SQLException {
     short result = cs.getShort(columnIndex);
     return result == 0 && cs.wasNull() ? null : result;
   }

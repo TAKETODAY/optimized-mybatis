@@ -15,6 +15,11 @@
  */
 package org.apache.ibatis.cache.decorators;
 
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.cache.CacheException;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.io.SerialFilterChecker;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,11 +28,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
 import java.io.Serializable;
-
-import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.cache.CacheException;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.io.SerialFilterChecker;
 
 /**
  * @author Clinton Begin
@@ -54,7 +54,8 @@ public class SerializedCache implements Cache {
   public void putObject(Object key, Object object) {
     if (object == null || object instanceof Serializable) {
       delegate.putObject(key, serialize((Serializable) object));
-    } else {
+    }
+    else {
       throw new CacheException("SharedCache failed to make a copy of a non-serializable object: " + object);
     }
   }
@@ -87,11 +88,12 @@ public class SerializedCache implements Cache {
 
   private byte[] serialize(Serializable value) {
     try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            ObjectOutputStream oos = new ObjectOutputStream(bos)) {
       oos.writeObject(value);
       oos.flush();
       return bos.toByteArray();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new CacheException("Error serializing object.  Cause: " + e, e);
     }
   }
@@ -100,9 +102,10 @@ public class SerializedCache implements Cache {
     SerialFilterChecker.check();
     Serializable result;
     try (ByteArrayInputStream bis = new ByteArrayInputStream(value);
-        ObjectInputStream ois = new CustomObjectInputStream(bis)) {
+            ObjectInputStream ois = new CustomObjectInputStream(bis)) {
       result = (Serializable) ois.readObject();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new CacheException("Error deserializing object.  Cause: " + e, e);
     }
     return result;

@@ -15,10 +15,10 @@
  */
 package org.apache.ibatis.scripting;
 
+import org.apache.ibatis.util.MapUtil;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.ibatis.util.MapUtil;
 
 /**
  * @author Frank D. Martinez [mnesarco]
@@ -36,7 +36,8 @@ public class LanguageDriverRegistry {
     MapUtil.computeIfAbsent(LANGUAGE_DRIVER_MAP, cls, k -> {
       try {
         return k.getDeclaredConstructor().newInstance();
-      } catch (Exception ex) {
+      }
+      catch (Exception ex) {
         throw new ScriptingException("Failed to load language driver for " + cls.getName(), ex);
       }
     });

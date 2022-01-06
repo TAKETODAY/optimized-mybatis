@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import java.time.ZonedDateTime;
 
 /**
- * @since 3.4.5
  * @author Tomas Rohovsky
+ * @since 3.4.5
  */
 public class ZonedDateTimeTypeHandler extends BaseTypeHandler<ZonedDateTime> {
 

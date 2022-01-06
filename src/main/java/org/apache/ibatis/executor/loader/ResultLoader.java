@@ -15,11 +15,6 @@
  */
 package org.apache.ibatis.executor.loader;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
@@ -33,6 +28,11 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * @author Clinton Begin
@@ -79,7 +79,8 @@ public class ResultLoader {
     }
     try {
       return localExecutor.query(mappedStatement, parameterObject, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER, cacheKey, boundSql);
-    } finally {
+    }
+    finally {
       if (localExecutor != executor) {
         localExecutor.close(false);
       }

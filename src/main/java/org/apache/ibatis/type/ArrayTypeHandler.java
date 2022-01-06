@@ -78,15 +78,16 @@ public class ArrayTypeHandler extends BaseTypeHandler<Object> {
 
   @Override
   public void setNonNullParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType)
-      throws SQLException {
+          throws SQLException {
     if (parameter instanceof Array) {
       // it's the user's responsibility to properly free() the Array instance
       ps.setArray(i, (Array) parameter);
-    } else {
+    }
+    else {
       if (!parameter.getClass().isArray()) {
         throw new TypeException(
-            "ArrayType Handler requires SQL array or java array parameter and does not support type "
-                + parameter.getClass());
+                "ArrayType Handler requires SQL array or java array parameter and does not support type "
+                        + parameter.getClass());
       }
       Class<?> componentType = parameter.getClass().getComponentType();
       String arrayTypeName = resolveTypeName(componentType);

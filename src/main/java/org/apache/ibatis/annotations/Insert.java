@@ -57,6 +57,7 @@ public @interface Insert {
 
   /**
    * The container annotation for {@link Insert}.
+   *
    * @author Kazuki Shimizu
    * @since 3.5.5
    */

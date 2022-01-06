@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.executor.loader;
 
+import org.apache.ibatis.io.SerialFilterChecker;
+import org.apache.ibatis.reflection.factory.ObjectFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
@@ -30,9 +33,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.io.SerialFilterChecker;
-import org.apache.ibatis.reflection.factory.ObjectFactory;
 
 /**
  * @author Eduardo Macarron
@@ -95,7 +95,8 @@ public abstract class AbstractSerialStateHolder implements Externalizable {
     final Object data = in.readObject();
     if (data.getClass().isArray()) {
       this.userBeanBytes = (byte[]) data;
-    } else {
+    }
+    else {
       this.userBean = data;
     }
   }
@@ -116,9 +117,11 @@ public abstract class AbstractSerialStateHolder implements Externalizable {
       this.objectFactory = (ObjectFactory) in.readObject();
       this.constructorArgTypes = (Class<?>[]) in.readObject();
       this.constructorArgs = (Object[]) in.readObject();
-    } catch (final IOException ex) {
+    }
+    catch (final IOException ex) {
       throw (ObjectStreamException) new StreamCorruptedException().initCause(ex);
-    } catch (final ClassNotFoundException ex) {
+    }
+    catch (final ClassNotFoundException ex) {
       throw (ObjectStreamException) new InvalidClassException(ex.getLocalizedMessage()).initCause(ex);
     }
 
@@ -130,5 +133,5 @@ public abstract class AbstractSerialStateHolder implements Externalizable {
   }
 
   protected abstract Object createDeserializationProxy(Object target, Map<String, ResultLoaderMap.LoadPair> unloadedProperties, ObjectFactory objectFactory,
-          List<Class<?>> constructorArgTypes, List<Object> constructorArgs);
+                                                       List<Class<?>> constructorArgTypes, List<Object> constructorArgs);
 }

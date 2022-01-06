@@ -43,7 +43,8 @@ public class ParameterExpression extends HashMap<String, String> {
     int p = skipWS(expression, 0);
     if (expression.charAt(p) == '(') {
       expression(expression, p + 1);
-    } else {
+    }
+    else {
       property(expression, p);
     }
   }
@@ -54,7 +55,8 @@ public class ParameterExpression extends HashMap<String, String> {
     while (match > 0) {
       if (expression.charAt(right) == ')') {
         match--;
-      } else if (expression.charAt(right) == '(') {
+      }
+      else if (expression.charAt(right) == '(') {
         match++;
       }
       right++;
@@ -95,9 +97,11 @@ public class ParameterExpression extends HashMap<String, String> {
     if (p < expression.length()) {
       if (expression.charAt(p) == ':') {
         jdbcType(expression, p + 1);
-      } else if (expression.charAt(p) == ',') {
+      }
+      else if (expression.charAt(p) == ',') {
         option(expression, p + 1);
-      } else {
+      }
+      else {
         throw new BuilderException("Parsing error in {" + expression + "} in position " + p);
       }
     }
@@ -108,7 +112,8 @@ public class ParameterExpression extends HashMap<String, String> {
     int right = skipUntil(expression, left, ",");
     if (right > left) {
       put("jdbcType", trimmedStr(expression, left, right));
-    } else {
+    }
+    else {
       throw new BuilderException("Parsing error in {" + expression + "} in position " + p);
     }
     option(expression, right + 1);

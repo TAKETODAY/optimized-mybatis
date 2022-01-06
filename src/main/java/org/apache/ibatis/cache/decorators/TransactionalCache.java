@@ -15,14 +15,14 @@
  */
 package org.apache.ibatis.cache.decorators;
 
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 
 /**
  * The 2nd level cache transactional buffer.
@@ -71,7 +71,8 @@ public class TransactionalCache implements Cache {
     // issue #146
     if (clearOnCommit) {
       return null;
-    } else {
+    }
+    else {
       return object;
     }
   }
@@ -126,9 +127,10 @@ public class TransactionalCache implements Cache {
     for (Object entry : entriesMissedInCache) {
       try {
         delegate.removeObject(entry);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         log.warn("Unexpected exception while notifying a rollback to the cache adapter. "
-            + "Consider upgrading your cache adapter to the latest version. Cause: " + e);
+                + "Consider upgrading your cache adapter to the latest version. Cause: " + e);
       }
     }
   }

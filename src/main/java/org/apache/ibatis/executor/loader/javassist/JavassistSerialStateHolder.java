@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.executor.loader.javassist;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.executor.loader.AbstractSerialStateHolder;
 import org.apache.ibatis.executor.loader.ResultLoaderMap;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Eduardo Macarron
@@ -43,7 +43,7 @@ class JavassistSerialStateHolder extends AbstractSerialStateHolder {
 
   @Override
   protected Object createDeserializationProxy(Object target, Map<String, ResultLoaderMap.LoadPair> unloadedProperties, ObjectFactory objectFactory,
-          List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+                                              List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     return new JavassistProxyFactory().createDeserializationProxy(target, unloadedProperties, objectFactory, constructorArgTypes, constructorArgs);
   }
 }

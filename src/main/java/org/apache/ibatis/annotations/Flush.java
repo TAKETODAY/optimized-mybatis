@@ -34,8 +34,8 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  *
- * @since 3.3.0
  * @author Kazuki Shimizu
+ * @since 3.3.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

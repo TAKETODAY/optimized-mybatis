@@ -15,10 +15,10 @@
  */
 package org.apache.ibatis.cache.decorators;
 
+import org.apache.ibatis.cache.Cache;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.apache.ibatis.cache.Cache;
 
 /**
  * Lru (least recently used) cache decorator.

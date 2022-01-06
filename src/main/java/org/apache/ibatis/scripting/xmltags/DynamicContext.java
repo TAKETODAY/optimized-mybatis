@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.Configuration;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -22,9 +25,6 @@ import java.util.StringJoiner;
 import ognl.OgnlContext;
 import ognl.OgnlRuntime;
 import ognl.PropertyAccessor;
-
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.session.Configuration;
 
 /**
  * @author Clinton Begin
@@ -47,7 +47,8 @@ public class DynamicContext {
       MetaObject metaObject = configuration.newMetaObject(parameterObject);
       boolean existsTypeHandler = configuration.getTypeHandlerRegistry().hasTypeHandler(parameterObject.getClass());
       bindings = new ContextMap(metaObject, existsTypeHandler);
-    } else {
+    }
+    else {
       bindings = new ContextMap(null, false);
     }
     bindings.put(PARAMETER_OBJECT_KEY, parameterObject);
@@ -97,7 +98,8 @@ public class DynamicContext {
 
       if (fallbackParameterObject && !parameterMetaObject.hasGetter(strKey)) {
         return parameterMetaObject.getOriginalObject();
-      } else {
+      }
+      else {
         // issue #61 do not modify the context when reading
         return parameterMetaObject.getValue(strKey);
       }
@@ -117,7 +119,7 @@ public class DynamicContext {
 
       Object parameterObject = map.get(PARAMETER_OBJECT_KEY);
       if (parameterObject instanceof Map) {
-        return ((Map)parameterObject).get(name);
+        return ((Map) parameterObject).get(name);
       }
 
       return null;

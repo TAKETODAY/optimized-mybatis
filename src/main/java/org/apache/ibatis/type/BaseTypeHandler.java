@@ -15,13 +15,13 @@
  */
 package org.apache.ibatis.type;
 
+import org.apache.ibatis.executor.result.ResultMapException;
+import org.apache.ibatis.session.Configuration;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.apache.ibatis.executor.result.ResultMapException;
-import org.apache.ibatis.session.Configuration;
 
 /**
  * The base {@link TypeHandler} for references a generic type.
@@ -46,8 +46,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   /**
    * Sets the configuration.
    *
-   * @param c
-   *          the new configuration
+   * @param c the new configuration
    * @deprecated Since 3.5.0 - See https://github.com/mybatis/mybatis-3/issues/1203. This property will remove future.
    */
   @Deprecated
@@ -63,18 +62,21 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
       }
       try {
         ps.setNull(i, jdbcType.TYPE_CODE);
-      } catch (SQLException e) {
-        throw new TypeException("Error setting null for parameter #" + i + " with JdbcType " + jdbcType + " . "
-              + "Try setting a different JdbcType for this parameter or a different jdbcTypeForNull configuration property. "
-              + "Cause: " + e, e);
       }
-    } else {
+      catch (SQLException e) {
+        throw new TypeException("Error setting null for parameter #" + i + " with JdbcType " + jdbcType + " . "
+                + "Try setting a different JdbcType for this parameter or a different jdbcTypeForNull configuration property. "
+                + "Cause: " + e, e);
+      }
+    }
+    else {
       try {
         setNonNullParameter(ps, i, parameter, jdbcType);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         throw new TypeException("Error setting non null for parameter #" + i + " with JdbcType " + jdbcType + " . "
-              + "Try setting a different JdbcType for this parameter or a different configuration property. "
-              + "Cause: " + e, e);
+                + "Try setting a different JdbcType for this parameter or a different configuration property. "
+                + "Cause: " + e, e);
       }
     }
   }
@@ -83,7 +85,8 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   public T getResult(ResultSet rs, String columnName) throws SQLException {
     try {
       return getNullableResult(rs, columnName);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new ResultMapException("Error attempting to get column '" + columnName + "' from result set.  Cause: " + e, e);
     }
   }
@@ -92,7 +95,8 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   public T getResult(ResultSet rs, int columnIndex) throws SQLException {
     try {
       return getNullableResult(rs, columnIndex);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new ResultMapException("Error attempting to get column #" + columnIndex + " from result set.  Cause: " + e, e);
     }
   }
@@ -101,7 +105,8 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   public T getResult(CallableStatement cs, int columnIndex) throws SQLException {
     try {
       return getNullableResult(cs, columnIndex);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new ResultMapException("Error attempting to get column #" + columnIndex + " from callable statement.  Cause: " + e, e);
     }
   }
@@ -111,13 +116,10 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
   /**
    * Gets the nullable result.
    *
-   * @param rs
-   *          the rs
-   * @param columnName
-   *          Column name, when configuration <code>useColumnLabel</code> is <code>false</code>
+   * @param rs the rs
+   * @param columnName Column name, when configuration <code>useColumnLabel</code> is <code>false</code>
    * @return the nullable result
-   * @throws SQLException
-   *           the SQL exception
+   * @throws SQLException the SQL exception
    */
   public abstract T getNullableResult(ResultSet rs, String columnName) throws SQLException;
 

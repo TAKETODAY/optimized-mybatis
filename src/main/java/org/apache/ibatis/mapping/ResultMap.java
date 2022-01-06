@@ -15,6 +15,13 @@
  */
 package org.apache.ibatis.mapping;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.builder.BuilderException;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.reflection.ParamNameUtil;
+import org.apache.ibatis.session.Configuration;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -23,13 +30,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.builder.BuilderException;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
-import org.apache.ibatis.reflection.ParamNameUtil;
-import org.apache.ibatis.session.Configuration;
 
 /**
  * @author Clinton Begin
@@ -56,7 +56,7 @@ public class ResultMap {
   public static class Builder {
     private static final Log log = LogFactory.getLog(Builder.class);
 
-    private ResultMap resultMap = new ResultMap();
+    private final ResultMap resultMap = new ResultMap();
 
     public Builder(Configuration configuration, String id, Class<?> type, List<ResultMapping> resultMappings) {
       this(configuration, id, type, resultMappings, null);
@@ -95,7 +95,8 @@ public class ResultMap {
         final String column = resultMapping.getColumn();
         if (column != null) {
           resultMap.mappedColumns.add(column.toUpperCase(Locale.ENGLISH));
-        } else if (resultMapping.isCompositeResult()) {
+        }
+        else if (resultMapping.isCompositeResult()) {
           for (ResultMapping compositeResultMapping : resultMapping.getComposites()) {
             final String compositeColumn = compositeResultMapping.getColumn();
             if (compositeColumn != null) {
@@ -112,7 +113,8 @@ public class ResultMap {
           if (resultMapping.getProperty() != null) {
             constructorArgNames.add(resultMapping.getProperty());
           }
-        } else {
+        }
+        else {
           resultMap.propertyResultMappings.add(resultMapping);
         }
         if (resultMapping.getFlags().contains(ResultFlag.ID)) {
@@ -126,9 +128,9 @@ public class ResultMap {
         final List<String> actualArgNames = argNamesOfMatchingConstructor(constructorArgNames);
         if (actualArgNames == null) {
           throw new BuilderException("Error in result map '" + resultMap.id
-              + "'. Failed to find a constructor in '"
-              + resultMap.getType().getName() + "' by arg names " + constructorArgNames
-              + ". There might be more info in debug log.");
+                  + "'. Failed to find a constructor in '"
+                  + resultMap.getType().getName() + "' by arg names " + constructorArgNames
+                  + ". There might be more info in debug log.");
         }
         resultMap.constructorResultMappings.sort((o1, o2) -> {
           int paramIdx1 = actualArgNames.indexOf(o1.getProperty());
@@ -152,7 +154,7 @@ public class ResultMap {
         if (constructorArgNames.size() == paramTypes.length) {
           List<String> paramNames = getArgNames(constructor);
           if (constructorArgNames.containsAll(paramNames)
-              && argTypesMatch(constructorArgNames, paramTypes, paramNames)) {
+                  && argTypesMatch(constructorArgNames, paramTypes, paramNames)) {
             return paramNames;
           }
         }
@@ -161,17 +163,17 @@ public class ResultMap {
     }
 
     private boolean argTypesMatch(final List<String> constructorArgNames,
-        Class<?>[] paramTypes, List<String> paramNames) {
+                                  Class<?>[] paramTypes, List<String> paramNames) {
       for (int i = 0; i < constructorArgNames.size(); i++) {
         Class<?> actualType = paramTypes[paramNames.indexOf(constructorArgNames.get(i))];
         Class<?> specifiedType = resultMap.constructorResultMappings.get(i).getJavaType();
         if (!actualType.equals(specifiedType)) {
           if (log.isDebugEnabled()) {
             log.debug("While building result map '" + resultMap.id
-                + "', found a constructor with arg names " + constructorArgNames
-                + ", but the type of '" + constructorArgNames.get(i)
-                + "' did not match. Specified: [" + specifiedType.getName() + "] Declared: ["
-                + actualType.getName() + "]");
+                    + "', found a constructor with arg names " + constructorArgNames
+                    + ", but the type of '" + constructorArgNames.get(i)
+                    + "' did not match. Specified: [" + specifiedType.getName() + "] Declared: ["
+                    + actualType.getName() + "]");
           }
           return false;
         }

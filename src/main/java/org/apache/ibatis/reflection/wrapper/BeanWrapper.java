@@ -15,8 +15,6 @@
  */
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.List;
-
 import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.reflection.MetaObject;
@@ -25,6 +23,8 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
+
+import java.util.List;
 
 /**
  * @author Clinton Begin
@@ -45,7 +45,8 @@ public class BeanWrapper extends BaseWrapper {
     if (prop.getIndex() != null) {
       Object collection = resolveCollection(prop, object);
       return getCollectionValue(prop, collection);
-    } else {
+    }
+    else {
       return getBeanProperty(prop, object);
     }
   }
@@ -55,7 +56,8 @@ public class BeanWrapper extends BaseWrapper {
     if (prop.getIndex() != null) {
       Object collection = resolveCollection(prop, object);
       setCollectionValue(prop, collection, value);
-    } else {
+    }
+    else {
       setBeanProperty(prop, object, value);
     }
   }
@@ -82,10 +84,12 @@ public class BeanWrapper extends BaseWrapper {
       MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         return metaClass.getSetterType(name);
-      } else {
+      }
+      else {
         return metaValue.getSetterType(prop.getChildren());
       }
-    } else {
+    }
+    else {
       return metaClass.getSetterType(name);
     }
   }
@@ -97,10 +101,12 @@ public class BeanWrapper extends BaseWrapper {
       MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         return metaClass.getGetterType(name);
-      } else {
+      }
+      else {
         return metaValue.getGetterType(prop.getChildren());
       }
-    } else {
+    }
+    else {
       return metaClass.getGetterType(name);
     }
   }
@@ -113,13 +119,16 @@ public class BeanWrapper extends BaseWrapper {
         MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
         if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
           return metaClass.hasSetter(name);
-        } else {
+        }
+        else {
           return metaValue.hasSetter(prop.getChildren());
         }
-      } else {
+      }
+      else {
         return false;
       }
-    } else {
+    }
+    else {
       return metaClass.hasSetter(name);
     }
   }
@@ -132,13 +141,16 @@ public class BeanWrapper extends BaseWrapper {
         MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
         if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
           return metaClass.hasGetter(name);
-        } else {
+        }
+        else {
           return metaValue.hasGetter(prop.getChildren());
         }
-      } else {
+      }
+      else {
         return false;
       }
-    } else {
+    }
+    else {
       return metaClass.hasGetter(name);
     }
   }
@@ -151,8 +163,10 @@ public class BeanWrapper extends BaseWrapper {
       Object newObject = objectFactory.create(type);
       metaValue = MetaObject.forObject(newObject, metaObject.getObjectFactory(), metaObject.getObjectWrapperFactory(), metaObject.getReflectorFactory());
       set(prop, newObject);
-    } catch (Exception e) {
-      throw new ReflectionException("Cannot set value of property '" + name + "' because '" + name + "' is null and cannot be instantiated on instance of " + type.getName() + ". Cause:" + e.toString(), e);
+    }
+    catch (Exception e) {
+      throw new ReflectionException(
+              "Cannot set value of property '" + name + "' because '" + name + "' is null and cannot be instantiated on instance of " + type.getName() + ". Cause:" + e, e);
     }
     return metaValue;
   }
@@ -162,27 +176,32 @@ public class BeanWrapper extends BaseWrapper {
       Invoker method = metaClass.getGetInvoker(prop.getName());
       try {
         return method.invoke(object, NO_ARGUMENTS);
-      } catch (Throwable t) {
+      }
+      catch (Throwable t) {
         throw ExceptionUtil.unwrapThrowable(t);
       }
-    } catch (RuntimeException e) {
+    }
+    catch (RuntimeException e) {
       throw e;
-    } catch (Throwable t) {
-      throw new ReflectionException("Could not get property '" + prop.getName() + "' from " + object.getClass() + ".  Cause: " + t.toString(), t);
+    }
+    catch (Throwable t) {
+      throw new ReflectionException("Could not get property '" + prop.getName() + "' from " + object.getClass() + ".  Cause: " + t, t);
     }
   }
 
   private void setBeanProperty(PropertyTokenizer prop, Object object, Object value) {
     try {
       Invoker method = metaClass.getSetInvoker(prop.getName());
-      Object[] params = {value};
+      Object[] params = { value };
       try {
         method.invoke(object, params);
-      } catch (Throwable t) {
+      }
+      catch (Throwable t) {
         throw ExceptionUtil.unwrapThrowable(t);
       }
-    } catch (Throwable t) {
-      throw new ReflectionException("Could not set property '" + prop.getName() + "' of '" + object.getClass() + "' with value '" + value + "' Cause: " + t.toString(), t);
+    }
+    catch (Throwable t) {
+      throw new ReflectionException("Could not set property '" + prop.getName() + "' of '" + object.getClass() + "' with value '" + value + "' Cause: " + t, t);
     }
   }
 

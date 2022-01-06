@@ -15,6 +15,10 @@
  */
 package org.apache.ibatis.jdbc;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.type.TypeHandler;
+import org.apache.ibatis.type.TypeHandlerRegistry;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,10 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.type.TypeHandler;
-import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
  * @author Clinton Begin
@@ -55,7 +55,7 @@ public class SqlRunner {
   /**
    * Executes a SELECT statement that returns one row.
    *
-   * @param sql  The SQL
+   * @param sql The SQL
    * @param args The arguments to be set on the statement.
    * @return The row expected.
    * @throws SQLException If less or more than one row is returned
@@ -71,7 +71,7 @@ public class SqlRunner {
   /**
    * Executes a SELECT statement that returns multiple rows.
    *
-   * @param sql  The SQL
+   * @param sql The SQL
    * @param args The arguments to be set on the statement.
    * @return The list of rows expected.
    * @throws SQLException If statement preparation or execution fails
@@ -88,7 +88,7 @@ public class SqlRunner {
   /**
    * Executes an INSERT statement.
    *
-   * @param sql  The SQL
+   * @param sql The SQL
    * @param args The arguments to be set on the statement.
    * @return The number of rows impacted or BATCHED_RESULTS if the statements are being batched.
    * @throws SQLException If statement preparation or execution fails
@@ -97,7 +97,8 @@ public class SqlRunner {
     PreparedStatement ps;
     if (useGeneratedKeySupport) {
       ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-    } else {
+    }
+    else {
       ps = connection.prepareStatement(sql);
     }
 
@@ -115,7 +116,8 @@ public class SqlRunner {
               if (genkey != null) {
                 try {
                   return Integer.parseInt(genkey.toString());
-                } catch (NumberFormatException e) {
+                }
+                catch (NumberFormatException e) {
                   //ignore, no numeric key support
                 }
               }
@@ -124,10 +126,12 @@ public class SqlRunner {
         }
       }
       return NO_GENERATED_KEY;
-    } finally {
+    }
+    finally {
       try {
         ps.close();
-      } catch (SQLException e) {
+      }
+      catch (SQLException e) {
         //ignore
       }
     }
@@ -136,7 +140,7 @@ public class SqlRunner {
   /**
    * Executes an UPDATE statement.
    *
-   * @param sql  The SQL
+   * @param sql The SQL
    * @param args The arguments to be set on the statement.
    * @return The number of rows impacted or BATCHED_RESULTS if the statements are being batched.
    * @throws SQLException If statement preparation or execution fails
@@ -151,7 +155,7 @@ public class SqlRunner {
   /**
    * Executes a DELETE statement.
    *
-   * @param sql  The SQL
+   * @param sql The SQL
    * @param args The arguments to be set on the statement.
    * @return The number of rows impacted or BATCHED_RESULTS if the statements are being batched.
    * @throws SQLException If statement preparation or execution fails
@@ -180,7 +184,8 @@ public class SqlRunner {
   public void closeConnection() {
     try {
       connection.close();
-    } catch (SQLException e) {
+    }
+    catch (SQLException e) {
       //ignore
     }
   }
@@ -189,13 +194,16 @@ public class SqlRunner {
     for (int i = 0, n = args.length; i < n; i++) {
       if (args[i] == null) {
         throw new SQLException("SqlRunner requires an instance of Null to represent typed null values for JDBC compatibility");
-      } else if (args[i] instanceof Null) {
+      }
+      else if (args[i] instanceof Null) {
         ((Null) args[i]).getTypeHandler().setParameter(ps, i + 1, null, ((Null) args[i]).getJdbcType());
-      } else {
+      }
+      else {
         TypeHandler typeHandler = typeHandlerRegistry.getTypeHandler(args[i].getClass());
         if (typeHandler == null) {
           throw new SQLException("SqlRunner could not find a TypeHandler instance for " + args[i].getClass());
-        } else {
+        }
+        else {
           typeHandler.setParameter(ps, i + 1, args[i], null);
         }
       }
@@ -216,7 +224,8 @@ public class SqlRunner {
           typeHandler = typeHandlerRegistry.getTypeHandler(Object.class);
         }
         typeHandlers.add(typeHandler);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         typeHandlers.add(typeHandlerRegistry.getTypeHandler(Object.class));
       }
     }

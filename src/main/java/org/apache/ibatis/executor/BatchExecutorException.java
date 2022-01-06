@@ -61,7 +61,7 @@ public class BatchExecutorException extends ExecutorException {
    * executor.
    *
    * @return the previously successful executor results (may be an empty list
-   *         if no executor has executed successfully)
+   * if no executor has executed successfully)
    */
   public List<BatchResult> getSuccessfulBatchResults() {
     return successfulBatchResults;

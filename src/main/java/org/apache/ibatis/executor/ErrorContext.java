@@ -137,7 +137,7 @@ public class ErrorContext {
     if (cause != null) {
       description.append(LINE_SEPARATOR);
       description.append("### Cause: ");
-      description.append(cause.toString());
+      description.append(cause);
     }
 
     return description.toString();

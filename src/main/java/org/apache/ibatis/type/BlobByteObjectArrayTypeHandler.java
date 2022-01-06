@@ -29,28 +29,28 @@ public class BlobByteObjectArrayTypeHandler extends BaseTypeHandler<Byte[]> {
 
   @Override
   public void setNonNullParameter(PreparedStatement ps, int i, Byte[] parameter, JdbcType jdbcType)
-      throws SQLException {
+          throws SQLException {
     ByteArrayInputStream bis = new ByteArrayInputStream(ByteArrayUtils.convertToPrimitiveArray(parameter));
     ps.setBinaryStream(i, bis, parameter.length);
   }
 
   @Override
   public Byte[] getNullableResult(ResultSet rs, String columnName)
-      throws SQLException {
+          throws SQLException {
     Blob blob = rs.getBlob(columnName);
     return getBytes(blob);
   }
 
   @Override
   public Byte[] getNullableResult(ResultSet rs, int columnIndex)
-      throws SQLException {
+          throws SQLException {
     Blob blob = rs.getBlob(columnIndex);
     return getBytes(blob);
   }
 
   @Override
   public Byte[] getNullableResult(CallableStatement cs, int columnIndex)
-      throws SQLException {
+          throws SQLException {
     Blob blob = cs.getBlob(columnIndex);
     return getBytes(blob);
   }

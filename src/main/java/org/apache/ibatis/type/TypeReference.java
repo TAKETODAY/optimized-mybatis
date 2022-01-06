@@ -22,8 +22,8 @@ import java.lang.reflect.Type;
  * References a generic type.
  *
  * @param <T> the referenced type
- * @since 3.1.0
  * @author Simone Tripodi
+ * @since 3.1.0
  */
 public abstract class TypeReference<T> {
 
@@ -42,7 +42,7 @@ public abstract class TypeReference<T> {
       }
 
       throw new TypeException("'" + getClass() + "' extends TypeReference but misses the type parameter. "
-        + "Remove the extension or add a type parameter to it.");
+              + "Remove the extension or add a type parameter to it.");
     }
 
     Type rawType = ((ParameterizedType) genericSuperclass).getActualTypeArguments()[0];

@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.type;
 
+import org.apache.ibatis.io.ResolverUtil;
+import org.apache.ibatis.io.Resources;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.ResultSet;
@@ -28,9 +31,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.ibatis.io.ResolverUtil;
-import org.apache.ibatis.io.Resources;
 
 /**
  * @author Clinton Begin
@@ -112,11 +112,13 @@ public class TypeAliasRegistry {
       Class<T> value;
       if (typeAliases.containsKey(key)) {
         value = (Class<T>) typeAliases.get(key);
-      } else {
+      }
+      else {
         value = (Class<T>) Resources.classForName(string);
       }
       return value;
-    } catch (ClassNotFoundException e) {
+    }
+    catch (ClassNotFoundException e) {
       throw new TypeException("Could not resolve type alias '" + string + "'.  Cause: " + e, e);
     }
   }
@@ -162,7 +164,8 @@ public class TypeAliasRegistry {
   public void registerAlias(String alias, String value) {
     try {
       registerAlias(alias, Resources.classForName(value));
-    } catch (ClassNotFoundException e) {
+    }
+    catch (ClassNotFoundException e) {
       throw new TypeException("Error registering type alias " + alias + " for " + value + ". Cause: " + e, e);
     }
   }

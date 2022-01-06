@@ -15,10 +15,6 @@
  */
 package org.apache.ibatis.scripting.defaults;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
-
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -31,6 +27,10 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeException;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Clinton Begin
@@ -70,11 +70,14 @@ public class DefaultParameterHandler implements ParameterHandler {
           String propertyName = parameterMapping.getProperty();
           if (boundSql.hasAdditionalParameter(propertyName)) { // issue #448 ask first for additional params
             value = boundSql.getAdditionalParameter(propertyName);
-          } else if (parameterObject == null) {
+          }
+          else if (parameterObject == null) {
             value = null;
-          } else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
+          }
+          else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
             value = parameterObject;
-          } else {
+          }
+          else {
             MetaObject metaObject = configuration.newMetaObject(parameterObject);
             value = metaObject.getValue(propertyName);
           }
@@ -85,7 +88,8 @@ public class DefaultParameterHandler implements ParameterHandler {
           }
           try {
             typeHandler.setParameter(ps, i + 1, value, jdbcType);
-          } catch (TypeException | SQLException e) {
+          }
+          catch (TypeException | SQLException e) {
             throw new TypeException("Could not set parameters for mapping: " + parameterMapping + ". Cause: " + e, e);
           }
         }

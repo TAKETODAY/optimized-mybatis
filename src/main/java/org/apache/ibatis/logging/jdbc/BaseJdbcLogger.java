@@ -15,6 +15,10 @@
  */
 package org.apache.ibatis.logging.jdbc;
 
+import org.apache.ibatis.builder.SqlSourceBuilder;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.reflection.ArrayUtil;
+
 import java.lang.reflect.Method;
 import java.sql.Array;
 import java.sql.PreparedStatement;
@@ -27,10 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.apache.ibatis.builder.SqlSourceBuilder;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.reflection.ArrayUtil;
 
 /**
  * Base class for proxies to do logging.
@@ -58,7 +58,8 @@ public abstract class BaseJdbcLogger {
     this.statementLog = log;
     if (queryStack == 0) {
       this.queryStack = 1;
-    } else {
+    }
+    else {
       this.queryStack = queryStack;
     }
   }
@@ -91,7 +92,8 @@ public abstract class BaseJdbcLogger {
     for (Object value : columnValues) {
       if (value == null) {
         typeList.add("null");
-      } else {
+      }
+      else {
         typeList.add(objectValueString(value) + "(" + value.getClass().getSimpleName() + ")");
       }
     }
@@ -103,7 +105,8 @@ public abstract class BaseJdbcLogger {
     if (value instanceof Array) {
       try {
         return ArrayUtil.toString(((Array) value).getArray());
-      } catch (SQLException e) {
+      }
+      catch (SQLException e) {
         return value.toString();
       }
     }
@@ -150,7 +153,8 @@ public abstract class BaseJdbcLogger {
     buffer[queryStack * 2 + 1] = ' ';
     if (isInput) {
       buffer[queryStack * 2] = '>';
-    } else {
+    }
+    else {
       buffer[0] = '<';
     }
     return new String(buffer);

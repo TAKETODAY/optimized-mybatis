@@ -24,19 +24,20 @@ import java.sql.SQLXML;
 /**
  * Convert <code>String</code> to/from <code>SQLXML</code>.
  *
- * @since 3.5.0
  * @author Iwao AVE!
+ * @since 3.5.0
  */
 public class SqlxmlTypeHandler extends BaseTypeHandler<String> {
 
   @Override
   public void setNonNullParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType)
-      throws SQLException {
+          throws SQLException {
     SQLXML sqlxml = ps.getConnection().createSQLXML();
     try {
       sqlxml.setString(parameter);
       ps.setSQLXML(i, sqlxml);
-    } finally {
+    }
+    finally {
       sqlxml.free();
     }
   }
@@ -62,7 +63,8 @@ public class SqlxmlTypeHandler extends BaseTypeHandler<String> {
     }
     try {
       return sqlxml.getString();
-    } finally {
+    }
+    finally {
       sqlxml.free();
     }
   }

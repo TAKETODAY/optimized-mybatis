@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import java.time.OffsetTime;
 
 /**
- * @since 3.4.5
  * @author Tomas Rohovsky
+ * @since 3.4.5
  */
 public class OffsetTimeTypeHandler extends BaseTypeHandler<OffsetTime> {
 

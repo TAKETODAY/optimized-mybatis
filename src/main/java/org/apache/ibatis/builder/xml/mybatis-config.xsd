@@ -24,169 +24,169 @@
   <xs:element name="configuration">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" ref="properties"/>
-        <xs:element minOccurs="0" ref="settings"/>
-        <xs:element minOccurs="0" ref="typeAliases"/>
-        <xs:element minOccurs="0" ref="typeHandlers"/>
-        <xs:element minOccurs="0" ref="objectFactory"/>
-        <xs:element minOccurs="0" ref="objectWrapperFactory"/>
-        <xs:element minOccurs="0" ref="reflectorFactory"/>
-        <xs:element minOccurs="0" ref="plugins"/>
-        <xs:element minOccurs="0" ref="environments"/>
-        <xs:element minOccurs="0" ref="databaseIdProvider"/>
-        <xs:element minOccurs="0" ref="mappers"/>
+        <xs:element minOccurs="0" ref="properties" />
+        <xs:element minOccurs="0" ref="settings" />
+        <xs:element minOccurs="0" ref="typeAliases" />
+        <xs:element minOccurs="0" ref="typeHandlers" />
+        <xs:element minOccurs="0" ref="objectFactory" />
+        <xs:element minOccurs="0" ref="objectWrapperFactory" />
+        <xs:element minOccurs="0" ref="reflectorFactory" />
+        <xs:element minOccurs="0" ref="plugins" />
+        <xs:element minOccurs="0" ref="environments" />
+        <xs:element minOccurs="0" ref="databaseIdProvider" />
+        <xs:element minOccurs="0" ref="mappers" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="databaseIdProvider">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property" />
       </xs:sequence>
-      <xs:attribute name="type" use="required"/>
+      <xs:attribute name="type" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="properties">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property" />
       </xs:sequence>
-      <xs:attribute name="resource"/>
-      <xs:attribute name="url"/>
+      <xs:attribute name="resource" />
+      <xs:attribute name="url" />
     </xs:complexType>
   </xs:element>
   <xs:element name="property">
     <xs:complexType>
-      <xs:attribute name="name" use="required"/>
-      <xs:attribute name="value" use="required"/>
+      <xs:attribute name="name" use="required" />
+      <xs:attribute name="value" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="settings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="setting"/>
+        <xs:element maxOccurs="unbounded" ref="setting" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="setting">
     <xs:complexType>
-      <xs:attribute name="name" use="required"/>
-      <xs:attribute name="value" use="required"/>
+      <xs:attribute name="name" use="required" />
+      <xs:attribute name="value" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="typeAliases">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="typeAlias"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="package"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="typeAlias" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="package" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="typeAlias">
     <xs:complexType>
-      <xs:attribute name="type" use="required"/>
-      <xs:attribute name="alias"/>
+      <xs:attribute name="type" use="required" />
+      <xs:attribute name="alias" />
     </xs:complexType>
   </xs:element>
   <xs:element name="typeHandlers">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="typeHandler"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="package"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="typeHandler" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="package" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="typeHandler">
     <xs:complexType>
-      <xs:attribute name="javaType"/>
-      <xs:attribute name="jdbcType"/>
-      <xs:attribute name="handler" use="required"/>
+      <xs:attribute name="javaType" />
+      <xs:attribute name="jdbcType" />
+      <xs:attribute name="handler" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="objectFactory">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property" />
       </xs:sequence>
-      <xs:attribute name="type" use="required"/>
+      <xs:attribute name="type" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="objectWrapperFactory">
     <xs:complexType>
-      <xs:attribute name="type" use="required"/>
+      <xs:attribute name="type" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="reflectorFactory">
     <xs:complexType>
-      <xs:attribute name="type" use="required"/>
+      <xs:attribute name="type" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="plugins">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="plugin"/>
+        <xs:element maxOccurs="unbounded" ref="plugin" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="plugin">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property" />
       </xs:sequence>
-      <xs:attribute name="interceptor" use="required"/>
+      <xs:attribute name="interceptor" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="environments">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="environment"/>
+        <xs:element maxOccurs="unbounded" ref="environment" />
       </xs:sequence>
-      <xs:attribute name="default" use="required"/>
+      <xs:attribute name="default" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="environment">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="transactionManager"/>
-        <xs:element ref="dataSource"/>
+        <xs:element ref="transactionManager" />
+        <xs:element ref="dataSource" />
       </xs:sequence>
-      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="id" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="transactionManager">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property" />
       </xs:sequence>
-      <xs:attribute name="type" use="required"/>
+      <xs:attribute name="type" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="dataSource">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="property" />
       </xs:sequence>
-      <xs:attribute name="type" use="required"/>
+      <xs:attribute name="type" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="mappers">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="mapper"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="package"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="mapper" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="package" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="mapper">
     <xs:complexType>
-      <xs:attribute name="resource"/>
-      <xs:attribute name="url"/>
-      <xs:attribute name="class"/>
+      <xs:attribute name="resource" />
+      <xs:attribute name="url" />
+      <xs:attribute name="class" />
     </xs:complexType>
   </xs:element>
   <xs:element name="package">
     <xs:complexType>
-      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="name" use="required" />
     </xs:complexType>
   </xs:element>
 </xs:schema>

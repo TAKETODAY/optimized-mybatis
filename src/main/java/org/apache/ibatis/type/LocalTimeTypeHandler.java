@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 
 /**
- * @since 3.4.5
  * @author Tomas Rohovsky
+ * @since 3.4.5
  */
 public class LocalTimeTypeHandler extends BaseTypeHandler<LocalTime> {
 

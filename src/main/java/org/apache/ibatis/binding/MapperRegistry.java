@@ -15,16 +15,16 @@
  */
 package org.apache.ibatis.binding;
 
+import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
+import org.apache.ibatis.io.ResolverUtil;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSession;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
-import org.apache.ibatis.io.ResolverUtil;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSession;
 
 /**
  * @author Clinton Begin
@@ -48,7 +48,8 @@ public class MapperRegistry {
     }
     try {
       return mapperProxyFactory.newInstance(sqlSession);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new BindingException("Error getting mapper instance. Cause: " + e, e);
     }
   }
@@ -71,7 +72,8 @@ public class MapperRegistry {
         MapperAnnotationBuilder parser = new MapperAnnotationBuilder(config, type);
         parser.parse();
         loadCompleted = true;
-      } finally {
+      }
+      finally {
         if (!loadCompleted) {
           knownMappers.remove(type);
         }
@@ -92,10 +94,8 @@ public class MapperRegistry {
   /**
    * Adds the mappers.
    *
-   * @param packageName
-   *          the package name
-   * @param superType
-   *          the super type
+   * @param packageName the package name
+   * @param superType the super type
    * @since 3.2.2
    */
   public void addMappers(String packageName, Class<?> superType) {
@@ -110,8 +110,7 @@ public class MapperRegistry {
   /**
    * Adds the mappers.
    *
-   * @param packageName
-   *          the package name
+   * @param packageName the package name
    * @since 3.2.2
    */
   public void addMappers(String packageName) {

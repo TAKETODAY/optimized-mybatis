@@ -74,7 +74,8 @@ public class EnumOrdinalTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E
   private E toOrdinalEnum(int ordinal) {
     try {
       return enums[ordinal];
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
       throw new IllegalArgumentException("Cannot convert " + ordinal + " to " + type.getSimpleName() + " by ordinal value.", ex);
     }
   }

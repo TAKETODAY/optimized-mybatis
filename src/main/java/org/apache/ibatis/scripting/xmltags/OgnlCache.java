@@ -15,19 +15,18 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
+import org.apache.ibatis.builder.BuilderException;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ognl.Ognl;
 import ognl.OgnlException;
 
-import org.apache.ibatis.builder.BuilderException;
-
 /**
  * Caches OGNL parsed expressions.
  *
  * @author Eduardo Macarron
- *
  * @see <a href='https://github.com/mybatis/old-google-code-issues/issues/342'>Issue 342</a>
  */
 public final class OgnlCache {
@@ -44,7 +43,8 @@ public final class OgnlCache {
     try {
       Map context = Ognl.createDefaultContext(root, MEMBER_ACCESS, CLASS_RESOLVER, null);
       return Ognl.getValue(parseExpression(expression), context, root);
-    } catch (OgnlException e) {
+    }
+    catch (OgnlException e) {
       throw new BuilderException("Error evaluating expression '" + expression + "'. Cause: " + e, e);
     }
   }

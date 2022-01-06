@@ -15,15 +15,15 @@
  */
 package org.apache.ibatis.io;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 
 /**
  * A {@link VFS} implementation that works with the VFS API provided by JBoss 6.
@@ -48,7 +48,8 @@ public class JBoss6VFS extends VFS {
     String getPathNameRelativeTo(VirtualFile parent) {
       try {
         return invoke(getPathNameRelativeTo, virtualFile, parent.virtualFile);
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
         // This exception is not thrown by the called method
         log.error("This should not be possible. VirtualFile.getPathNameRelativeTo() threw IOException.");
         return null;
@@ -96,9 +97,9 @@ public class JBoss6VFS extends VFS {
       // Look up and verify required methods
       VFS.getChild = checkNotNull(getMethod(VFS.VFS, "getChild", URL.class));
       VirtualFile.getChildrenRecursively = checkNotNull(getMethod(VirtualFile.VirtualFile,
-          "getChildrenRecursively"));
+              "getChildrenRecursively"));
       VirtualFile.getPathNameRelativeTo = checkNotNull(getMethod(VirtualFile.VirtualFile,
-          "getPathNameRelativeTo", VirtualFile.VirtualFile));
+              "getPathNameRelativeTo", VirtualFile.VirtualFile));
 
       // Verify that the API has not changed
       checkReturnType(VFS.getChild, VirtualFile.VirtualFile);
@@ -111,10 +112,8 @@ public class JBoss6VFS extends VFS {
    * Verifies that the provided object reference is null. If it is null, then this VFS is marked
    * as invalid for the current environment.
    *
-   * @param <T>
-   *          the generic type
-   * @param object
-   *          The object reference to check for null.
+   * @param <T> the generic type
+   * @param object The object reference to check for null.
    * @return the t
    */
   protected static <T> T checkNotNull(T object) {
@@ -135,8 +134,8 @@ public class JBoss6VFS extends VFS {
   protected static void checkReturnType(Method method, Class<?> expected) {
     if (method != null && !expected.isAssignableFrom(method.getReturnType())) {
       log.error("Method " + method.getClass().getName() + "." + method.getName()
-          + "(..) should return " + expected.getName() + " but returns "
-          + method.getReturnType().getName() + " instead.");
+              + "(..) should return " + expected.getName() + " but returns "
+              + method.getReturnType().getName() + " instead.");
       setInvalid();
     }
   }

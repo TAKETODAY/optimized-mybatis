@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.cache.decorators;
 
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.cache.CacheException;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.cache.CacheException;
 
 /**
  * <p>Simple blocking decorator
@@ -32,7 +32,6 @@ import org.apache.ibatis.cache.CacheException;
  * <p>By its nature, this implementation can cause deadlock when used incorrectly.
  *
  * @author Eduardo Macarron
- *
  */
 public class BlockingCache implements Cache {
 
@@ -59,7 +58,8 @@ public class BlockingCache implements Cache {
   public void putObject(Object key, Object value) {
     try {
       delegate.putObject(key, value);
-    } finally {
+    }
+    finally {
       releaseLock(key);
     }
   }
@@ -98,12 +98,14 @@ public class BlockingCache implements Cache {
           boolean acquired = latch.await(timeout, TimeUnit.MILLISECONDS);
           if (!acquired) {
             throw new CacheException(
-                "Couldn't get a lock in " + timeout + " for the key " + key + " at the cache " + delegate.getId());
+                    "Couldn't get a lock in " + timeout + " for the key " + key + " at the cache " + delegate.getId());
           }
-        } else {
+        }
+        else {
           latch.await();
         }
-      } catch (InterruptedException e) {
+      }
+      catch (InterruptedException e) {
         throw new CacheException("Got interrupted while trying to acquire lock for key " + key, e);
       }
     }

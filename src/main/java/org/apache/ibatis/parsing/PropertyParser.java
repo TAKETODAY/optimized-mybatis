@@ -27,9 +27,10 @@ public class PropertyParser {
   /**
    * The special property key that indicate whether enable a default value on placeholder.
    * <p>
-   *   The default value is {@code false} (indicate disable a default value on placeholder)
-   *   If you specify the {@code true}, you can specify key and default value on placeholder (e.g. {@code ${db.username:postgres}}).
+   * The default value is {@code false} (indicate disable a default value on placeholder)
+   * If you specify the {@code true}, you can specify key and default value on placeholder (e.g. {@code ${db.username:postgres}}).
    * </p>
+   *
    * @since 3.4.2
    */
   public static final String KEY_ENABLE_DEFAULT_VALUE = KEY_PREFIX + "enable-default-value";
@@ -37,8 +38,9 @@ public class PropertyParser {
   /**
    * The special property key that specify a separator for key and default value on placeholder.
    * <p>
-   *   The default separator is {@code ":"}.
+   * The default separator is {@code ":"}.
    * </p>
+   *
    * @since 3.4.2
    */
   public static final String KEY_DEFAULT_VALUE_SEPARATOR = KEY_PREFIX + "default-value-separator";

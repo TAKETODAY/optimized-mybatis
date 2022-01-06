@@ -15,10 +15,10 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
-import java.util.Map;
-
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.session.Configuration;
+
+import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -62,7 +62,8 @@ public class ForEachSqlNode implements SqlNode {
       DynamicContext oldContext = context;
       if (first || separator == null) {
         context = new PrefixedContext(context, "");
-      } else {
+      }
+      else {
         context = new PrefixedContext(context, separator);
       }
       int uniqueNumber = context.getUniqueNumber();
@@ -72,7 +73,8 @@ public class ForEachSqlNode implements SqlNode {
         Map.Entry<Object, Object> mapEntry = (Map.Entry<Object, Object>) o;
         applyIndex(context, mapEntry.getKey(), uniqueNumber);
         applyItem(context, mapEntry.getValue(), uniqueNumber);
-      } else {
+      }
+      else {
         applyIndex(context, i, uniqueNumber);
         applyItem(context, o, uniqueNumber);
       }
@@ -125,7 +127,7 @@ public class ForEachSqlNode implements SqlNode {
     private final String itemIndex;
     private final String item;
 
-    public FilteredDynamicContext(Configuration configuration,DynamicContext delegate, String itemIndex, String item, int i) {
+    public FilteredDynamicContext(Configuration configuration, DynamicContext delegate, String itemIndex, String item, int i) {
       super(configuration, null);
       this.delegate = delegate;
       this.index = i;
@@ -167,7 +169,6 @@ public class ForEachSqlNode implements SqlNode {
     }
 
   }
-
 
   private class PrefixedContext extends DynamicContext {
     private final DynamicContext delegate;

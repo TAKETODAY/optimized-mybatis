@@ -35,7 +35,8 @@ public class CharacterTypeHandler extends BaseTypeHandler<Character> {
     String columnValue = rs.getString(columnName);
     if (columnValue != null) {
       return columnValue.charAt(0);
-    } else {
+    }
+    else {
       return null;
     }
   }
@@ -45,7 +46,8 @@ public class CharacterTypeHandler extends BaseTypeHandler<Character> {
     String columnValue = rs.getString(columnIndex);
     if (columnValue != null) {
       return columnValue.charAt(0);
-    } else {
+    }
+    else {
       return null;
     }
   }
@@ -55,7 +57,8 @@ public class CharacterTypeHandler extends BaseTypeHandler<Character> {
     String columnValue = cs.getString(columnIndex);
     if (columnValue != null) {
       return columnValue.charAt(0);
-    } else {
+    }
+    else {
       return null;
     }
   }

@@ -57,6 +57,7 @@ public @interface Delete {
 
   /**
    * The container annotation for {@link Delete}.
+   *
    * @author Kazuki Shimizu
    * @since 3.5.5
    */

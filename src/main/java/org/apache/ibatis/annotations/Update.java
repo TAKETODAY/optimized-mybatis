@@ -57,6 +57,7 @@ public @interface Update {
 
   /**
    * The container annotation for {@link Update}.
+   *
    * @author Kazuki Shimizu
    * @since 3.5.5
    */

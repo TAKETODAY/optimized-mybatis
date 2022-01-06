@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.io;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,9 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 
 /**
  * @author Clinton Begin
@@ -44,7 +44,7 @@ public class ExternalResources {
     }
 
     try (FileInputStream source = new FileInputStream(sourceFile);
-         FileOutputStream destination = new FileOutputStream(destFile)) {
+            FileOutputStream destination = new FileOutputStream(destFile)) {
       destination.getChannel().transferFrom(source.getChannel(), 0, source.getChannel().size());
     }
 
@@ -57,9 +57,11 @@ public class ExternalResources {
     try (InputStream is = new FileInputStream(templatePath)) {
       migrationProperties.load(is);
       templateName = migrationProperties.getProperty(templateProperty);
-    } catch (FileNotFoundException e) {
+    }
+    catch (FileNotFoundException e) {
       throw e;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       log.error("", e);
     }
 

@@ -15,10 +15,10 @@
  */
 package org.apache.ibatis.reflection.invoker;
 
+import org.apache.ibatis.reflection.ReflectionException;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.apache.ibatis.reflection.ReflectionException;
 
 public class AmbiguousMethodInvoker extends MethodInvoker {
   private final String exceptionMessage;

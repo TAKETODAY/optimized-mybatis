@@ -31,7 +31,8 @@ public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
     if (delim > -1) {
       name = fullname.substring(0, delim);
       children = fullname.substring(delim + 1);
-    } else {
+    }
+    else {
       name = fullname;
       children = null;
     }

@@ -16,9 +16,8 @@
 package org.apache.ibatis.jdbc;
 
 /**
- * @deprecated Use the {@link SQL} Class
- *
  * @author Jeff Butler
+ * @deprecated Use the {@link SQL} Class
  */
 public class SqlBuilder {
 
@@ -51,7 +50,8 @@ public class SqlBuilder {
   public static String SQL() {
     try {
       return sql().toString();
-    } finally {
+    }
+    finally {
       RESET();
     }
   }

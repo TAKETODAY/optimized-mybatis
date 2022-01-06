@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.logging.jdbc;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.reflection.ExceptionUtil;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -26,15 +29,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringJoiner;
 
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.reflection.ExceptionUtil;
-
 /**
  * ResultSet proxy to add logging.
  *
  * @author Clinton Begin
  * @author Eduardo Macarron
- *
  */
 public final class ResultSetLogger extends BaseJdbcLogger implements InvocationHandler {
 
@@ -79,13 +78,15 @@ public final class ResultSetLogger extends BaseJdbcLogger implements InvocationH
             }
             printColumnValues(columnCount);
           }
-        } else {
+        }
+        else {
           debug("     Total: " + rows, false);
         }
       }
       clearColumnInfo();
       return o;
-    } catch (Throwable t) {
+    }
+    catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
   }
@@ -107,10 +108,12 @@ public final class ResultSetLogger extends BaseJdbcLogger implements InvocationH
       try {
         if (blobColumns.contains(i)) {
           row.add("<<BLOB>>");
-        } else {
+        }
+        else {
           row.add(rs.getString(i));
         }
-      } catch (SQLException e) {
+      }
+      catch (SQLException e) {
         // generally can't call getString() on a BLOB column
         row.add("<<Cannot Display>>");
       }
@@ -121,18 +124,15 @@ public final class ResultSetLogger extends BaseJdbcLogger implements InvocationH
   /**
    * Creates a logging version of a ResultSet.
    *
-   * @param rs
-   *          the ResultSet to proxy
-   * @param statementLog
-   *          the statement log
-   * @param queryStack
-   *          the query stack
+   * @param rs the ResultSet to proxy
+   * @param statementLog the statement log
+   * @param queryStack the query stack
    * @return the ResultSet with logging
    */
   public static ResultSet newInstance(ResultSet rs, Log statementLog, int queryStack) {
     InvocationHandler handler = new ResultSetLogger(rs, statementLog, queryStack);
     ClassLoader cl = ResultSet.class.getClassLoader();
-    return (ResultSet) Proxy.newProxyInstance(cl, new Class[]{ResultSet.class}, handler);
+    return (ResultSet) Proxy.newProxyInstance(cl, new Class[] { ResultSet.class }, handler);
   }
 
   /**

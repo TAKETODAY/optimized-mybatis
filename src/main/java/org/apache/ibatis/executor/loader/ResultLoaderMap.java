@@ -15,19 +15,6 @@
  */
 package org.apache.ibatis.executor.loader;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.BaseExecutor;
 import org.apache.ibatis.executor.BatchResult;
@@ -40,6 +27,19 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Clinton Begin
@@ -134,7 +134,7 @@ public class ResultLoaderMap {
     /**
      * Name of the unread property.
      */
-    private String property;
+    private final String property;
     /**
      * ID of SQL statement which loads the property.
      */
@@ -159,7 +159,8 @@ public class ResultLoaderMap {
           this.mappedParameter = (Serializable) mappedStatementParameter;
 
           this.configurationFactory = resultLoader.configuration.getConfigurationFactory();
-        } else {
+        }
+        else {
           Log log = this.getLogger();
           if (log.isDebugEnabled()) {
             log.debug("Property [" + this.property + "] of ["
@@ -238,24 +239,30 @@ public class ResultLoaderMap {
             try {
               factoryMethod.setAccessible(true);
               return factoryMethod.invoke(null);
-            } finally {
+            }
+            finally {
               factoryMethod.setAccessible(false);
             }
           });
-        } else {
+        }
+        else {
           configurationObject = factoryMethod.invoke(null);
         }
-      } catch (final ExecutorException ex) {
+      }
+      catch (final ExecutorException ex) {
         throw ex;
-      } catch (final NoSuchMethodException ex) {
+      }
+      catch (final NoSuchMethodException ex) {
         throw new ExecutorException("Cannot get Configuration as factory class ["
                 + this.configurationFactory + "] is missing factory method of name ["
                 + FACTORY_METHOD + "].", ex);
-      } catch (final PrivilegedActionException ex) {
+      }
+      catch (final PrivilegedActionException ex) {
         throw new ExecutorException("Cannot get Configuration as factory method ["
                 + this.configurationFactory + "]#["
                 + FACTORY_METHOD + "] threw an exception.", ex.getCause());
-      } catch (final Exception ex) {
+      }
+      catch (final Exception ex) {
         throw new ExecutorException("Cannot get Configuration as factory method ["
                 + this.configurationFactory + "]#["
                 + FACTORY_METHOD + "] threw an exception.", ex);
@@ -268,7 +275,7 @@ public class ResultLoaderMap {
                 + (configurationObject == null ? "null" : configurationObject.getClass()) + "].");
       }
 
-      return Configuration.class.cast(configurationObject);
+      return (Configuration) configurationObject;
     }
 
     private Log getLogger() {

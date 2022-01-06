@@ -32,9 +32,11 @@ public class ExceptionUtil {
     while (true) {
       if (unwrapped instanceof InvocationTargetException) {
         unwrapped = ((InvocationTargetException) unwrapped).getTargetException();
-      } else if (unwrapped instanceof UndeclaredThrowableException) {
+      }
+      else if (unwrapped instanceof UndeclaredThrowableException) {
         unwrapped = ((UndeclaredThrowableException) unwrapped).getUndeclaredThrowable();
-      } else {
+      }
+      else {
         return unwrapped;
       }
     }

@@ -15,11 +15,6 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.mapping.SqlSource;
@@ -28,6 +23,11 @@ import org.apache.ibatis.scripting.defaults.RawSqlSource;
 import org.apache.ibatis.session.Configuration;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -50,7 +50,6 @@ public class XMLScriptBuilder extends BaseBuilder {
     initNodeHandlerMap();
   }
 
-
   private void initNodeHandlerMap() {
     nodeHandlerMap.put("trim", new TrimHandler());
     nodeHandlerMap.put("where", new WhereHandler());
@@ -68,7 +67,8 @@ public class XMLScriptBuilder extends BaseBuilder {
     SqlSource sqlSource;
     if (isDynamic) {
       sqlSource = new DynamicSqlSource(configuration, rootSqlNode);
-    } else {
+    }
+    else {
       sqlSource = new RawSqlSource(configuration, rootSqlNode, parameterType);
     }
     return sqlSource;
@@ -85,10 +85,12 @@ public class XMLScriptBuilder extends BaseBuilder {
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
           isDynamic = true;
-        } else {
+        }
+        else {
           contents.add(new StaticTextSqlNode(data));
         }
-      } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628
+      }
+      else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628
         String nodeName = child.getNode().getNodeName();
         NodeHandler handler = nodeHandlerMap.get(nodeName);
         if (handler == null) {
@@ -229,7 +231,8 @@ public class XMLScriptBuilder extends BaseBuilder {
         NodeHandler handler = nodeHandlerMap.get(nodeName);
         if (handler instanceof IfHandler) {
           handler.handleNode(child, ifSqlNodes);
-        } else if (handler instanceof OtherwiseHandler) {
+        }
+        else if (handler instanceof OtherwiseHandler) {
           handler.handleNode(child, defaultSqlNodes);
         }
       }
@@ -239,7 +242,8 @@ public class XMLScriptBuilder extends BaseBuilder {
       SqlNode defaultSqlNode = null;
       if (defaultSqlNodes.size() == 1) {
         defaultSqlNode = defaultSqlNodes.get(0);
-      } else if (defaultSqlNodes.size() > 1) {
+      }
+      else if (defaultSqlNodes.size() > 1) {
         throw new BuilderException("Too many default (otherwise) elements in choose statement.");
       }
       return defaultSqlNode;

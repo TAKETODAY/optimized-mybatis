@@ -32,7 +32,8 @@ public class Log4j2Impl implements Log {
 
     if (logger instanceof AbstractLogger) {
       log = new Log4j2AbstractLoggerImpl((AbstractLogger) logger);
-    } else {
+    }
+    else {
       log = new Log4j2LoggerImpl(logger);
     }
   }

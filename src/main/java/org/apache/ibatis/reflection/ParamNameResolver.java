@@ -15,6 +15,12 @@
  */
 package org.apache.ibatis.reflection;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -24,12 +30,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.binding.MapperMethod.ParamMap;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.RowBounds;
 
 public class ParamNameResolver {
 
@@ -115,18 +115,19 @@ public class ParamNameResolver {
    * ...).
    * </p>
    *
-   * @param args
-   *          the args
+   * @param args the args
    * @return the named params
    */
   public Object getNamedParams(Object[] args) {
     final int paramCount = names.size();
     if (args == null || paramCount == 0) {
       return null;
-    } else if (!hasParamAnnotation && paramCount == 1) {
+    }
+    else if (!hasParamAnnotation && paramCount == 1) {
       Object value = args[names.firstKey()];
       return wrapToMapIfCollection(value, useActualParamName ? names.get(0) : null);
-    } else {
+    }
+    else {
       final Map<String, Object> param = new ParamMap<>();
       int i = 0;
       for (Map.Entry<Integer, String> entry : names.entrySet()) {
@@ -148,7 +149,7 @@ public class ParamNameResolver {
    *
    * @param object a parameter object
    * @param actualParamName an actual parameter name
-   *                        (If specify a name, set an object to {@link ParamMap} with specified name)
+   * (If specify a name, set an object to {@link ParamMap} with specified name)
    * @return a {@link ParamMap}
    * @since 3.5.5
    */
@@ -161,7 +162,8 @@ public class ParamNameResolver {
       }
       Optional.ofNullable(actualParamName).ifPresent(name -> map.put(name, object));
       return map;
-    } else if (object != null && object.getClass().isArray()) {
+    }
+    else if (object != null && object.getClass().isArray()) {
       ParamMap<Object> map = new ParamMap<>();
       map.put("array", object);
       Optional.ofNullable(actualParamName).ifPresent(name -> map.put(name, object));

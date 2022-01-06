@@ -38,8 +38,8 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  *
- * @since 3.2.0
  * @author Jeff Butler
+ * @since 3.2.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

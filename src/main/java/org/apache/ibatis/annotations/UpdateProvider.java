@@ -55,8 +55,8 @@ public @interface UpdateProvider {
    * Specify a type that implements an SQL provider method.
    *
    * @return a type that implements an SQL provider method
-   * @since 3.5.2
    * @see #type()
+   * @since 3.5.2
    */
   Class<?> value() default void.class;
 
@@ -101,6 +101,7 @@ public @interface UpdateProvider {
 
   /**
    * The container annotation for {@link UpdateProvider}.
+   *
    * @author Kazuki Shimizu
    * @since 3.5.5
    */

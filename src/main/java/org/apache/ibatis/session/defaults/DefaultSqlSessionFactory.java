@@ -15,9 +15,6 @@
  */
 package org.apache.ibatis.session.defaults;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import org.apache.ibatis.exceptions.ExceptionFactory;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.Executor;
@@ -30,6 +27,9 @@ import org.apache.ibatis.session.TransactionIsolationLevel;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * @author Clinton Begin
@@ -95,10 +95,12 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       closeTransaction(tx); // may have fetched a connection so lets call close()
       throw ExceptionFactory.wrapException("Error opening session.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -108,7 +110,8 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       boolean autoCommit;
       try {
         autoCommit = connection.getAutoCommit();
-      } catch (SQLException e) {
+      }
+      catch (SQLException e) {
         // Failover to true, as most poor drivers
         // or databases won't support transactions
         autoCommit = true;
@@ -118,9 +121,11 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       final Transaction tx = transactionFactory.newTransaction(connection);
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw ExceptionFactory.wrapException("Error opening session.  Cause: " + e, e);
-    } finally {
+    }
+    finally {
       ErrorContext.instance().reset();
     }
   }
@@ -136,7 +141,8 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     if (tx != null) {
       try {
         tx.close();
-      } catch (SQLException ignore) {
+      }
+      catch (SQLException ignore) {
         // Intentionally ignore. Prefer previous error.
       }
     }

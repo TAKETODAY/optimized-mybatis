@@ -15,6 +15,9 @@
  */
 package org.apache.ibatis.io;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,9 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 
 /**
  * Provides a very simple API for accessing resources within an application server.
@@ -62,9 +62,10 @@ public abstract class VFS {
           vfs = impl.getDeclaredConstructor().newInstance();
           if (!vfs.isValid() && log.isDebugEnabled()) {
             log.debug("VFS implementation " + impl.getName()
-                + " is not valid in this environment.");
+                    + " is not valid in this environment.");
           }
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        }
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
           log.error("Failed to instantiate " + impl, e);
           return null;
         }
@@ -103,15 +104,15 @@ public abstract class VFS {
   /**
    * Get a class by name. If the class is not found then return null.
    *
-   * @param className
-   *          the class name
+   * @param className the class name
    * @return the class
    */
   protected static Class<?> getClass(String className) {
     try {
       return Thread.currentThread().getContextClassLoader().loadClass(className);
       // return ReflectUtil.findClass(className);
-    } catch (ClassNotFoundException e) {
+    }
+    catch (ClassNotFoundException e) {
       if (log.isDebugEnabled()) {
         log.debug("Class not found: " + className);
       }
@@ -122,12 +123,9 @@ public abstract class VFS {
   /**
    * Get a method by name and parameter types. If the method is not found then return null.
    *
-   * @param clazz
-   *          The class to which the method belongs.
-   * @param methodName
-   *          The name of the method.
-   * @param parameterTypes
-   *          The types of the parameters accepted by the method.
+   * @param clazz The class to which the method belongs.
+   * @param methodName The name of the method.
+   * @param parameterTypes The types of the parameters accepted by the method.
    * @return the method
    */
   protected static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
@@ -136,10 +134,12 @@ public abstract class VFS {
     }
     try {
       return clazz.getMethod(methodName, parameterTypes);
-    } catch (SecurityException e) {
+    }
+    catch (SecurityException e) {
       log.error("Security exception looking for method " + clazz.getName() + "." + methodName + ".  Cause: " + e);
       return null;
-    } catch (NoSuchMethodException e) {
+    }
+    catch (NoSuchMethodException e) {
       log.error("Method not found " + clazz.getName() + "." + methodName + "." + methodName + ".  Cause: " + e);
       return null;
     }
@@ -148,31 +148,28 @@ public abstract class VFS {
   /**
    * Invoke a method on an object and return whatever it returns.
    *
-   * @param <T>
-   *          the generic type
-   * @param method
-   *          The method to invoke.
-   * @param object
-   *          The instance or class (for static methods) on which to invoke the method.
-   * @param parameters
-   *          The parameters to pass to the method.
+   * @param <T> the generic type
+   * @param method The method to invoke.
+   * @param object The instance or class (for static methods) on which to invoke the method.
+   * @param parameters The parameters to pass to the method.
    * @return Whatever the method returns.
-   * @throws IOException
-   *           If I/O errors occur
-   * @throws RuntimeException
-   *           If anything else goes wrong
+   * @throws IOException If I/O errors occur
+   * @throws RuntimeException If anything else goes wrong
    */
   @SuppressWarnings("unchecked")
   protected static <T> T invoke(Method method, Object object, Object... parameters)
-      throws IOException, RuntimeException {
+          throws IOException, RuntimeException {
     try {
       return (T) method.invoke(object, parameters);
-    } catch (IllegalArgumentException | IllegalAccessException e) {
+    }
+    catch (IllegalArgumentException | IllegalAccessException e) {
       throw new RuntimeException(e);
-    } catch (InvocationTargetException e) {
+    }
+    catch (InvocationTargetException e) {
       if (e.getTargetException() instanceof IOException) {
         throw (IOException) e.getTargetException();
-      } else {
+      }
+      else {
         throw new RuntimeException(e);
       }
     }
@@ -203,7 +200,7 @@ public abstract class VFS {
    *
    * @param url The URL that identifies the resource to list.
    * @param forPath The path to the resource that is identified by the URL. Generally, this is the
-   *            value passed to {@link #getResources(String)} to get the resource URL.
+   * value passed to {@link #getResources(String)} to get the resource URL.
    * @return A list containing the names of the child resources.
    * @throws IOException If I/O errors occur
    */

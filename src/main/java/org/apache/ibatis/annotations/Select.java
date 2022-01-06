@@ -57,6 +57,7 @@ public @interface Select {
 
   /**
    * The container annotation for {@link Select}.
+   *
    * @author Kazuki Shimizu
    * @since 3.5.5
    */

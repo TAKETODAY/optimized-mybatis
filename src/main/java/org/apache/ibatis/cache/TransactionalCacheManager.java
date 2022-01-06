@@ -15,11 +15,11 @@
  */
 package org.apache.ibatis.cache;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.ibatis.cache.decorators.TransactionalCache;
 import org.apache.ibatis.util.MapUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Clinton Begin

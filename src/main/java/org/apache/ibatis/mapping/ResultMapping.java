@@ -15,15 +15,15 @@
  */
 package org.apache.ibatis.mapping;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Clinton Begin
@@ -50,7 +50,7 @@ public class ResultMapping {
   }
 
   public static class Builder {
-    private ResultMapping resultMapping = new ResultMapping();
+    private final ResultMapping resultMapping = new ResultMapping();
 
     public Builder(Configuration configuration, String property, String column, TypeHandler<?> typeHandler) {
       this(configuration, property);
@@ -273,9 +273,11 @@ public class ResultMapping {
   public int hashCode() {
     if (property != null) {
       return property.hashCode();
-    } else if (column != null) {
+    }
+    else if (column != null) {
       return column.hashCode();
-    } else {
+    }
+    else {
       return 0;
     }
   }

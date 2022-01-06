@@ -15,9 +15,6 @@
  */
 package org.apache.ibatis.executor.keygen;
 
-import java.sql.Statement;
-import java.util.List;
-
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -25,6 +22,9 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
+
+import java.sql.Statement;
+import java.util.List;
 
 /**
  * @author Clinton Begin
@@ -67,32 +67,38 @@ public class SelectKeyGenerator implements KeyGenerator {
         List<Object> values = keyExecutor.query(keyStatement, parameter, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
         if (values.size() == 0) {
           throw new ExecutorException("SelectKey returned no data.");
-        } else if (values.size() > 1) {
+        }
+        else if (values.size() > 1) {
           throw new ExecutorException("SelectKey returned more than one value.");
-        } else {
+        }
+        else {
           MetaObject metaResult = configuration.newMetaObject(values.get(0));
           if (keyProperties.length == 1) {
             if (metaResult.hasGetter(keyProperties[0])) {
               setValue(metaParam, keyProperties[0], metaResult.getValue(keyProperties[0]));
-            } else {
+            }
+            else {
               // no getter for the property - maybe just a single value object
               // so try that
               setValue(metaParam, keyProperties[0], values.get(0));
             }
-          } else {
+          }
+          else {
             handleMultipleProperties(keyProperties, metaParam, metaResult);
           }
         }
       }
-    } catch (ExecutorException e) {
+    }
+    catch (ExecutorException e) {
       throw e;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new ExecutorException("Error selecting key or setting result to parameter object. Cause: " + e, e);
     }
   }
 
   private void handleMultipleProperties(String[] keyProperties,
-      MetaObject metaParam, MetaObject metaResult) {
+                                        MetaObject metaParam, MetaObject metaResult) {
     String[] keyColumns = keyStatement.getKeyColumns();
 
     if (keyColumns == null || keyColumns.length == 0) {
@@ -100,7 +106,8 @@ public class SelectKeyGenerator implements KeyGenerator {
       for (String keyProperty : keyProperties) {
         setValue(metaParam, keyProperty, metaResult.getValue(keyProperty));
       }
-    } else {
+    }
+    else {
       if (keyColumns.length != keyProperties.length) {
         throw new ExecutorException("If SelectKey has key columns, the number must match the number of key properties.");
       }
@@ -113,7 +120,8 @@ public class SelectKeyGenerator implements KeyGenerator {
   private void setValue(MetaObject metaParam, String property, Object value) {
     if (metaParam.hasSetter(property)) {
       metaParam.setValue(property, value);
-    } else {
+    }
+    else {
       throw new ExecutorException("No setter found for the keyProperty '" + property + "' in " + metaParam.getOriginalObject().getClass().getName() + ".");
     }
   }

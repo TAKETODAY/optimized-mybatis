@@ -15,10 +15,10 @@
  */
 package org.apache.ibatis.cache.decorators;
 
+import org.apache.ibatis.cache.Cache;
+
 import java.util.Deque;
 import java.util.LinkedList;
-
-import org.apache.ibatis.cache.Cache;
 
 /**
  * FIFO (first in, first out) cache decorator.

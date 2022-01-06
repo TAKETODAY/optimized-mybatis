@@ -15,14 +15,6 @@
  */
 package org.apache.ibatis.executor;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.logging.Log;
@@ -32,6 +24,14 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -84,7 +84,8 @@ public class ReuseExecutor extends BaseExecutor {
     if (hasStatementFor(sql)) {
       stmt = getStatement(sql);
       applyTransactionTimeout(stmt);
-    } else {
+    }
+    else {
       Connection connection = getConnection(statementLog);
       stmt = handler.prepare(connection, transaction.getTimeout());
       putStatement(sql, stmt);
@@ -97,7 +98,8 @@ public class ReuseExecutor extends BaseExecutor {
     try {
       Statement statement = statementMap.get(sql);
       return statement != null && !statement.getConnection().isClosed();
-    } catch (SQLException e) {
+    }
+    catch (SQLException e) {
       return false;
     }
   }
