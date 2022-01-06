@@ -1,4 +1,4 @@
-MyBatis SQL Mapper Framework for Java
+Optimized MyBatis SQL Mapper Framework for Java
 =====================================
 
 [![build](https://github.com/mybatis/mybatis-3/workflows/Java%20CI/badge.svg)](https://github.com/mybatis/mybatis-3/actions?query=workflow%3A%22Java+CI%22)
