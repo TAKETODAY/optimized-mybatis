@@ -4,7 +4,7 @@ Please use [the mailing list](http://groups.google.com/group/mybatis-user) inste
 
 ## Reporting a bug
 
-- Create a new issue on [the tracker](https://github.com/mybatis/mybatis-3/issues).
+- Create a new issue on [the tracker](https://github.com/TAKETODAY/optimized-mybatis/issues).
 - The best way to report a bug is to create a failing test case. Please see the [Contributing code](CONTRIBUTING.md#contributing-code) section.
 
 ## Proposing a new feature
@@ -15,7 +15,7 @@ Please use [the mailing list](http://groups.google.com/group/mybatis-user) inste
 
 ## Improving documentation
 
-- Documentations are placed under [src/site](https://github.com/mybatis/mybatis-3/tree/master/src/site) directory in [the xdoc format](http://maven.apache.org/doxia/references/xdoc-format.html), so it is basically the same as creating a patch to contribute documentation changes. Please see the [Contributing code](CONTRIBUTING.md#contributing-code) section.
+- Documentations are placed under [src/site](https://github.com/TAKETODAY/optimized-mybatis/tree/master/src/site) directory in [the xdoc format](http://maven.apache.org/doxia/references/xdoc-format.html), so it is basically the same as creating a patch to contribute documentation changes. Please see the [Contributing code](CONTRIBUTING.md#contributing-code) section.
 
 ## Contributing code
 
@@ -59,4 +59,4 @@ Here are the steps of a typical workflow.
 For steps 1 to 3, please read [this GitHub help](https://help.github.com/articles/fork-a-repo) if you are not familiar with these operations.  
 Step 4 and 5 are basic [git](http://git-scm.com/) operations. Please see the [online documentation](http://git-scm.com/documentation) for its usage.
 
-For how to write a unit test, please see the [unit test](https://github.com/mybatis/mybatis-3/wiki/Unit-Test) page.
+For how to write a unit test, please see the [unit test](https://github.com/TAKETODAY/optimized-mybatis/wiki/Unit-Test) page.

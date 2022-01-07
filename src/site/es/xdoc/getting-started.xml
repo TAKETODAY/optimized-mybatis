@@ -32,7 +32,7 @@
     <subsection name="Instalación">
       <p>
         Para usar MyBatis sólo tienes que incluir el fichero
-        <a href="https://github.com/mybatis/mybatis-3/releases">mybatis-x.x.x.jar</a>
+        <a href="https://github.com/TAKETODAY/optimized-mybatis/releases">mybatis-x.x.x.jar</a>
         en el classpath.
       </p>
       <p>
