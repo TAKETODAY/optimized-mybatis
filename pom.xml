@@ -43,6 +43,11 @@
 
   <url>https://github.taketoday.cn/optimized-mybatis/zh/index.html</url>
 
+  <organization>
+    <name>TODAY</name>
+    <url>https://github.com/TAKETODAY</url>
+  </organization>
+
   <inceptionYear>2021</inceptionYear>
 
   <contributors>
