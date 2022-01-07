@@ -20,7 +20,7 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | Java API</title>
+    <title>Optimized MyBatis | Java API</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="harawata@gmail.com">Iwao AVE!</author>
   </properties>
@@ -183,7 +183,7 @@ Configuration getConfiguration();</source>
     <li><code>ExecutorType.BATCH</code>: 全ての更新ステートメントをバッチで実行し、途中で SELECT が実行される場合は、より分かりやすい動作となるよう必要に応じてトランザクション境界を設定します。</li>
   </ul>
   <p><span class="label important">NOTE</span> 説明しませんでしたが、SqlSessionFactory にはもう一つ <em>getConfiguration()</em> というメソッドがあります。このメソッドは、MyBatis の実行時設定についての情報を保持する Configuration のインスタンスを返します。</p>
-  <p><span class="label important">NOTE</span> 旧バージョンの MyBatis では、セッション、トランザクション、バッチは互いに独立していました。MyBatis 3 では、これら３つは全てセッションのスコープに含まれているので、それぞれを別々に扱う必要はありません。</p>
+  <p><span class="label important">NOTE</span> 旧バージョンの MyBatis では、セッション、トランザクション、バッチは互いに独立していました。Optimized MyBatis では、これら３つは全てセッションのスコープに含まれているので、それぞれを別々に扱う必要はありません。</p>
 
   <h4>SqlSession</h4>
   <p>以前説明したように、SqlSession は MyBatis でも最も強力なクラスで、ステートメントの実行、トランザクションのコミットまたはロールバック、Mapper インスタンスの取得を行うメソッドが全て含まれています。</p>
@@ -306,7 +306,7 @@ void rollback(boolean force)</source>
   <p>引数として RowBounds のインスタンスを渡すとクエリ結果の行数を制限することができます。</p>
 
   <h5>Mapper アノテーション</h5>
-  <p>MyBatis は当初から XML 駆動型のフレームワークでした。設定ファイルは XML でしたし、マップドステートメントも XML で定義されています。MyBatis 3 からは新しいオプションが追加されました。MyBatis 3 は包括的で強力な Java ベースの Configuration API の上に構築されています。この Configuration API が、XML による設定とアノテーションによる設定の基礎となっています。アノテーションを使うと、シンプルなマップドステートメントを無駄なく実装することができます。</p>
+  <p>MyBatis は当初から XML 駆動型のフレームワークでした。設定ファイルは XML でしたし、マップドステートメントも XML で定義されています。Optimized MyBatis からは新しいオプションが追加されました。Optimized MyBatis は包括的で強力な Java ベースの Configuration API の上に構築されています。この Configuration API が、XML による設定とアノテーションによる設定の基礎となっています。アノテーションを使うと、シンプルなマップドステートメントを無駄なく実装することができます。</p>
   <p><span class="label important">NOTE</span> 残念ながら、アノテーションの表現力と柔軟性には制限があります。調査や試行錯誤に多くの時間を費やしたにも関わらず、複雑なマッピングをアノテーションで実現することはできません。（例えば）C# の Attributes にはこのような制限が無いので、MyBatis.NET では XML の代わりに Attributes を活用することができます。とは言っても、Java のアノテーションにも利点が無いわけではありません。</p>
   <p><strong>アノテーション一覧：</strong></p>
   <table>

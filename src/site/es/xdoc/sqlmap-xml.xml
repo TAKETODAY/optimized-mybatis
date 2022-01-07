@@ -20,7 +20,7 @@
       xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | Ficheros XML de mapeo</title>
+    <title>Optimized MyBatis | Ficheros XML de mapeo</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
   </properties>
@@ -1670,7 +1670,7 @@ SELECT * FROM POST WHERE BLOG_ID = #{id}]]></source>
 
       </subsection>
       <subsection name="cache">
-        <p>MyBatis incluye una funcionalidad de caché transaccional de segundo nivel muy potente que es ampliamente configurable y personalizable. Se han realizado muchos cambios en la caché de MyBatis 3 para hacer la a la vez más potente y más sencilla de configurar.
+        <p>MyBatis incluye una funcionalidad de caché transaccional de segundo nivel muy potente que es ampliamente configurable y personalizable. Se han realizado muchos cambios en la caché de Optimized MyBatis para hacer la a la vez más potente y más sencilla de configurar.
         </p>
 
         <p>

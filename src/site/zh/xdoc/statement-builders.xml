@@ -20,7 +20,7 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | SQL 语句构建器</title>
+    <title>Optimized MyBatis | SQL 语句构建器</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="nanlei1987@gmail.com">Nan Lei</author>
   </properties>
@@ -46,7 +46,7 @@ String sql = "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FULL_NAME, "
 ]]></source>
       </subsection>
       <subsection name="解决方案">
-      <p>MyBatis 3 提供了方便的工具类来帮助解决此问题。借助 SQL 类，我们只需要简单地创建一个实例，并调用它的方法即可生成 SQL 语句。让我们来用 SQL 类重写上面的例子：
+      <p>Optimized MyBatis 提供了方便的工具类来帮助解决此问题。借助 SQL 类，我们只需要简单地创建一个实例，并调用它的方法即可生成 SQL 语句。让我们来用 SQL 类重写上面的例子：
       </p>
 
       <source><![CDATA[

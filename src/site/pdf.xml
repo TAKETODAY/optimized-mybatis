@@ -41,8 +41,8 @@
     <coverTitle>${project.name}</coverTitle>
     <coverSubTitle>v. ${project.version}</coverSubTitle>
     <coverType>User Guide</coverType>
-    <projectName>${project.name}</projectName>
-    <projectLogo>http://mybatis.github.io/images/mybatis-logo.png</projectLogo>
+    <projectName>${project.name}</projectName>Optimized
+    <projectLogo>https://github.taketoday.cn/optimized-mybatis/images/mybatis-logo.png</projectLogo>
     <companyName>${project.organization.name}</companyName>
   </cover>
 </document>

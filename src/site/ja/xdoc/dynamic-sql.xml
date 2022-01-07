@@ -20,7 +20,7 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | 動的 SQL</title>
+    <title>Optimized MyBatis | 動的 SQL</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="harawata@gmail.com">Iwao AVE!</author>
   </properties>
@@ -31,7 +31,7 @@
 </p>
   <p>動的 SQL の構築が楽しくなることはないでしょうが、MyBatis が提供する強力な動的 SQL 言語を使えばかなり改善することができます。
  </p>
-  <p>JSTL などの XML ベースのテキストプロセッサを使ったことがあるなら、MyBatis の動的 SQL の要素は馴染みやすいものだと思います。以前のバージョンの MyBatis では理解しておかなくてはならない要素が数多くありましたが、MyBatis 3 では改良の結果、要素の数は半分以下になっています。要素の数を減らすため、MyBatis では OGNL ベースの式（expression）を採用しています。
+  <p>JSTL などの XML ベースのテキストプロセッサを使ったことがあるなら、MyBatis の動的 SQL の要素は馴染みやすいものだと思います。以前のバージョンの MyBatis では理解しておかなくてはならない要素が数多くありましたが、Optimized MyBatis では改良の結果、要素の数は半分以下になっています。要素の数を減らすため、MyBatis では OGNL ベースの式（expression）を採用しています。
   </p>
   <ul>
     <li>if</li>

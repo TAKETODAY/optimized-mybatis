@@ -20,7 +20,7 @@
       xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | Mapper XML ファイル</title>
+    <title>Optimized MyBatis | Mapper XML ファイル</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="harawata@gmail.com">Iwao AVE!</author>
   </properties>
@@ -1888,7 +1888,7 @@ SELECT * FROM POST WHERE BLOG_ID = #{id}]]></source>
       <subsection name="cache">
         <p>
           MyBatis には非常に柔軟なトランザクション対応のクエリキャッシング機能が用意されています。
-          MyBatis 3 では、より強力で、かつ簡単に設定できるよう、キャッシュの実装に多くの改良が加えられています。
+          Optimized MyBatis では、より強力で、かつ簡単に設定できるよう、キャッシュの実装に多くの改良が加えられています。
         </p>
 
         <p>

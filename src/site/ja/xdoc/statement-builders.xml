@@ -20,7 +20,7 @@
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | SQL ビルダークラス</title>
+    <title>Optimized MyBatis | SQL ビルダークラス</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="harawata@gmail.com">Iwao AVE!</author>
   </properties>
@@ -49,7 +49,7 @@ String sql = "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FULL_NAME, "
         ]]></source>
       </subsection>
       <subsection name="解決策">
-      <p>MyBatis 3 ではこうした問題を解決する際の助けとなる便利なクラス 'SQL' が用意されています。SQL クラスのインスタンスを作成し、順番にメソッドを呼び出していくことで SQL 文を構築することができるようになっています。上記のコードは SQL クラスを使うと次のように書き換えることができます。
+      <p>Optimized MyBatis ではこうした問題を解決する際の助けとなる便利なクラス 'SQL' が用意されています。SQL クラスのインスタンスを作成し、順番にメソッドを呼び出していくことで SQL 文を構築することができるようになっています。上記のコードは SQL クラスを使うと次のように書き換えることができます。
       </p>
 
       <source><![CDATA[

@@ -20,7 +20,7 @@
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | The SQL BUilder Class</title>
+    <title>Optimized MyBatis | The SQL BUilder Class</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
   </properties>
 
@@ -51,7 +51,7 @@ String sql = "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FULL_NAME, "
 ]]></source>
       </subsection>
       <subsection name="The Solution">
-      <p>MyBatis 3 offers a convenient utility class to help with the problem.
+      <p>Optimized MyBatis offers a convenient utility class to help with the problem.
         With the SQL class, you simply create an instance that lets you call methods against it to build a SQL statement
         one step at a time.  The example problem above would look like this when rewritten with the SQL class:
       </p>

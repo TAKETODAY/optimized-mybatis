@@ -126,7 +126,7 @@
   <distributionManagement>
     <site>
       <id>gh-pages</id>
-      <name>Mybatis GitHub Pages</name>
+      <name>Optimized Mybatis GitHub Pages</name>
       <url>git:ssh://git@github.com/TAKETODAY/optimized-mybatis.git?gh-pages#</url>
     </site>
   </distributionManagement>

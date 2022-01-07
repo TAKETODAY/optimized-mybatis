@@ -20,7 +20,7 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | Premiers pas</title>
+    <title>Optimized MyBatis | Premiers pas</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="dridi.boukelmoune@zenika.com">Dridi Boukelmoune</author>
   </properties>

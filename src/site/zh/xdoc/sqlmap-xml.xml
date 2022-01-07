@@ -20,7 +20,7 @@
       xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>MyBatis 3 | XML 映射器</title>
+    <title>Optimized MyBatis | XML 映射器</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="nanlei1987@gmail.com">Nan Lei</author>
     <author email="echowdx@gmail.com">Dongxu Wang</author>
@@ -1950,7 +1950,7 @@ SELECT * FROM POST WHERE BLOG_ID = #{id}]]></source>
       <subsection name="缓存" id="cache">
         <p>
           MyBatis 内置了一个强大的事务性查询缓存机制，它可以非常方便地配置和定制。
-          为了使它更加强大而且易于配置，我们对 MyBatis 3 中的缓存实现进行了许多改进。
+          为了使它更加强大而且易于配置，我们对 Optimized MyBatis 中的缓存实现进行了许多改进。
         </p>
 
         <p>
