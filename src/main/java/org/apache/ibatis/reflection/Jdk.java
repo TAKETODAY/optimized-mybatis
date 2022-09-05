@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,6 @@ public class Jdk {
 
   /**
    * <code>true</code> if <code>java.lang.reflect.Parameter</code> is available.
-   *
    * @deprecated Since 3.5.0, Will remove this field at feature(next major version up)
    */
   @Deprecated
@@ -35,8 +34,7 @@ public class Jdk {
     try {
       Resources.classForName("java.lang.reflect.Parameter");
       available = true;
-    }
-    catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException e) {
       // ignore
     }
     parameterExists = available;
@@ -53,8 +51,7 @@ public class Jdk {
     try {
       Resources.classForName("java.time.Clock");
       available = true;
-    }
-    catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException e) {
       // ignore
     }
     dateAndTimeApiExists = available;
@@ -71,8 +68,7 @@ public class Jdk {
     try {
       Resources.classForName("java.util.Optional");
       available = true;
-    }
-    catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException e) {
       // ignore
     }
     optionalExists = available;

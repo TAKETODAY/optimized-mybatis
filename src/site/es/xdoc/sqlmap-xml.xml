@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2021-2022 the original author or authors.
+       Copyright 2009-2022 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
        You may obtain a copy of the License at
 
-          http://www.apache.org/licenses/LICENSE-2.0
+          https://www.apache.org/licenses/LICENSE-2.0
 
        Unless required by applicable law or agreed to in writing, software
        distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,10 @@
 
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+      xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 https://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Optimized MyBatis | Ficheros XML de mapeo</title>
+    <title>MyBatis 3 | Ficheros XML de mapeo</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
   </properties>
@@ -1670,7 +1670,7 @@ SELECT * FROM POST WHERE BLOG_ID = #{id}]]></source>
 
       </subsection>
       <subsection name="cache">
-        <p>MyBatis incluye una funcionalidad de caché transaccional de segundo nivel muy potente que es ampliamente configurable y personalizable. Se han realizado muchos cambios en la caché de Optimized MyBatis para hacer la a la vez más potente y más sencilla de configurar.
+        <p>MyBatis incluye una funcionalidad de caché transaccional de segundo nivel muy potente que es ampliamente configurable y personalizable. Se han realizado muchos cambios en la caché de MyBatis 3 para hacer la a la vez más potente y más sencilla de configurar.
         </p>
 
         <p>

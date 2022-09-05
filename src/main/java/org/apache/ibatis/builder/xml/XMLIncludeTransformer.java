@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,11 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.builder.xml;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
 
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.builder.IncompleteElementException;
@@ -24,11 +29,6 @@ import org.apache.ibatis.session.Configuration;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
 
 /**
  * @author Frank D. Martinez [mnesarco]
@@ -53,8 +53,10 @@ public class XMLIncludeTransformer {
   /**
    * Recursively apply includes through all SQL fragments.
    *
-   * @param source Include node in DOM tree
-   * @param variablesContext Current context for static variables with values
+   * @param source
+   *          Include node in DOM tree
+   * @param variablesContext
+   *          Current context for static variables with values
    */
   private void applyIncludes(Node source, final Properties variablesContext, boolean included) {
     if ("include".equals(source.getNodeName())) {
@@ -69,8 +71,7 @@ public class XMLIncludeTransformer {
         toInclude.getParentNode().insertBefore(toInclude.getFirstChild(), toInclude);
       }
       toInclude.getParentNode().removeChild(toInclude);
-    }
-    else if (source.getNodeType() == Node.ELEMENT_NODE) {
+    } else if (source.getNodeType() == Node.ELEMENT_NODE) {
       if (included && !variablesContext.isEmpty()) {
         // replace variables in attribute values
         NamedNodeMap attributes = source.getAttributes();
@@ -83,9 +84,8 @@ public class XMLIncludeTransformer {
       for (int i = 0; i < children.getLength(); i++) {
         applyIncludes(children.item(i), variablesContext, included);
       }
-    }
-    else if (included && (source.getNodeType() == Node.TEXT_NODE || source.getNodeType() == Node.CDATA_SECTION_NODE)
-            && !variablesContext.isEmpty()) {
+    } else if (included && (source.getNodeType() == Node.TEXT_NODE || source.getNodeType() == Node.CDATA_SECTION_NODE)
+        && !variablesContext.isEmpty()) {
       // replace variables in text node
       source.setNodeValue(PropertyParser.parse(source.getNodeValue(), variablesContext));
     }
@@ -97,8 +97,7 @@ public class XMLIncludeTransformer {
     try {
       XNode nodeToInclude = configuration.getSqlFragments().get(refid);
       return nodeToInclude.getNode().cloneNode(true);
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       throw new IncompleteElementException("Could not find SQL statement to include with refid '" + refid + "'", e);
     }
   }
@@ -110,8 +109,10 @@ public class XMLIncludeTransformer {
   /**
    * Read placeholders and their values from include node definition.
    *
-   * @param node Include node instance
-   * @param inheritedVariablesContext Current context used for replace variables in new variables values
+   * @param node
+   *          Include node instance
+   * @param inheritedVariablesContext
+   *          Current context used for replace variables in new variables values
    * @return variables context from include instance (no inherited values)
    */
   private Properties getVariablesContext(Node node, Properties inheritedVariablesContext) {
@@ -133,8 +134,7 @@ public class XMLIncludeTransformer {
     }
     if (declaredProperties == null) {
       return inheritedVariablesContext;
-    }
-    else {
+    } else {
       Properties newProperties = new Properties();
       newProperties.putAll(inheritedVariablesContext);
       newProperties.putAll(declaredProperties);

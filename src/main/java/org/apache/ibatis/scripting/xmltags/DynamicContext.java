@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,9 +15,6 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.session.Configuration;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -25,6 +22,9 @@ import java.util.StringJoiner;
 import ognl.OgnlContext;
 import ognl.OgnlRuntime;
 import ognl.PropertyAccessor;
+
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.Configuration;
 
 /**
  * @author Clinton Begin
@@ -47,8 +47,7 @@ public class DynamicContext {
       MetaObject metaObject = configuration.newMetaObject(parameterObject);
       boolean existsTypeHandler = configuration.getTypeHandlerRegistry().hasTypeHandler(parameterObject.getClass());
       bindings = new ContextMap(metaObject, existsTypeHandler);
-    }
-    else {
+    } else {
       bindings = new ContextMap(null, false);
     }
     bindings.put(PARAMETER_OBJECT_KEY, parameterObject);
@@ -98,8 +97,7 @@ public class DynamicContext {
 
       if (fallbackParameterObject && !parameterMetaObject.hasGetter(strKey)) {
         return parameterMetaObject.getOriginalObject();
-      }
-      else {
+      } else {
         // issue #61 do not modify the context when reading
         return parameterMetaObject.getValue(strKey);
       }
@@ -119,7 +117,7 @@ public class DynamicContext {
 
       Object parameterObject = map.get(PARAMETER_OBJECT_KEY);
       if (parameterObject instanceof Map) {
-        return ((Map) parameterObject).get(name);
+        return ((Map)parameterObject).get(name);
       }
 
       return null;

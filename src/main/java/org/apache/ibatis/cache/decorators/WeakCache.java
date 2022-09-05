@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.cache.decorators;
 
-import org.apache.ibatis.cache.Cache;
-
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.Deque;
 import java.util.LinkedList;
+
+import org.apache.ibatis.cache.Cache;
 
 /**
  * Weak Reference cache decorator.
@@ -71,9 +71,8 @@ public class WeakCache implements Cache {
       result = weakReference.get();
       if (result == null) {
         delegate.removeObject(key);
-      }
-      else {
-        synchronized(hardLinksToAvoidGarbageCollection) {
+      } else {
+        synchronized (hardLinksToAvoidGarbageCollection) {
           hardLinksToAvoidGarbageCollection.addFirst(result);
           if (hardLinksToAvoidGarbageCollection.size() > numberOfHardLinks) {
             hardLinksToAvoidGarbageCollection.removeLast();
@@ -87,12 +86,14 @@ public class WeakCache implements Cache {
   @Override
   public Object removeObject(Object key) {
     removeGarbageCollectedItems();
-    return delegate.removeObject(key);
+    @SuppressWarnings("unchecked")
+    WeakReference<Object> weakReference = (WeakReference<Object>) delegate.removeObject(key);
+    return weakReference == null ? null : weakReference.get();
   }
 
   @Override
   public void clear() {
-    synchronized(hardLinksToAvoidGarbageCollection) {
+    synchronized (hardLinksToAvoidGarbageCollection) {
       hardLinksToAvoidGarbageCollection.clear();
     }
     removeGarbageCollectedItems();

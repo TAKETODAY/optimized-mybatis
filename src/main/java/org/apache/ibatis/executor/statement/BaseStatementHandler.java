@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,10 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.executor.statement;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.Executor;
@@ -28,10 +32,6 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * @author Clinton Begin
@@ -89,12 +89,10 @@ public abstract class BaseStatementHandler implements StatementHandler {
       setStatementTimeout(statement, transactionTimeout);
       setFetchSize(statement);
       return statement;
-    }
-    catch (SQLException e) {
+    } catch (SQLException e) {
       closeStatement(statement);
       throw e;
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       closeStatement(statement);
       throw new ExecutorException("Error preparing statement.  Cause: " + e, e);
     }
@@ -106,8 +104,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
     Integer queryTimeout = null;
     if (mappedStatement.getTimeout() != null) {
       queryTimeout = mappedStatement.getTimeout();
-    }
-    else if (configuration.getDefaultStatementTimeout() != null) {
+    } else if (configuration.getDefaultStatementTimeout() != null) {
       queryTimeout = configuration.getDefaultStatementTimeout();
     }
     if (queryTimeout != null) {
@@ -133,8 +130,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
       if (statement != null) {
         statement.close();
       }
-    }
-    catch (SQLException e) {
+    } catch (SQLException e) {
       //ignore
     }
   }

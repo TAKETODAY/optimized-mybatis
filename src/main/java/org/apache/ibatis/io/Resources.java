@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +32,7 @@ import java.util.Properties;
  */
 public class Resources {
 
-  private static final ClassLoaderWrapper classLoaderWrapper = new ClassLoaderWrapper();
+  private static ClassLoaderWrapper classLoaderWrapper = new ClassLoaderWrapper();
 
   /**
    * Charset to use when calling getResourceAsReader.
@@ -76,7 +76,7 @@ public class Resources {
   /**
    * Returns the URL of the resource on the classpath
    *
-   * @param loader The classloader used to fetch the resource
+   * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -103,7 +103,7 @@ public class Resources {
   /**
    * Returns a resource on the classpath as a Stream object
    *
-   * @param loader The classloader used to fetch the resource
+   * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -134,7 +134,7 @@ public class Resources {
   /**
    * Returns a resource on the classpath as a Properties object
    *
-   * @param loader The classloader used to fetch the resource
+   * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -158,8 +158,7 @@ public class Resources {
     Reader reader;
     if (charset == null) {
       reader = new InputStreamReader(getResourceAsStream(resource));
-    }
-    else {
+    } else {
       reader = new InputStreamReader(getResourceAsStream(resource), charset);
     }
     return reader;
@@ -168,7 +167,7 @@ public class Resources {
   /**
    * Returns a resource on the classpath as a Reader object
    *
-   * @param loader The classloader used to fetch the resource
+   * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -177,8 +176,7 @@ public class Resources {
     Reader reader;
     if (charset == null) {
       reader = new InputStreamReader(getResourceAsStream(loader, resource));
-    }
-    else {
+    } else {
       reader = new InputStreamReader(getResourceAsStream(loader, resource), charset);
     }
     return reader;
@@ -198,7 +196,7 @@ public class Resources {
   /**
    * Returns a resource on the classpath as a File object
    *
-   * @param loader - the classloader used to fetch the resource
+   * @param loader   - the classloader used to fetch the resource
    * @param resource - the resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -231,8 +229,7 @@ public class Resources {
     Reader reader;
     if (charset == null) {
       reader = new InputStreamReader(getUrlAsStream(urlString));
-    }
-    else {
+    } else {
       reader = new InputStreamReader(getUrlAsStream(urlString), charset);
     }
     return reader;

@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
+import java.util.regex.Pattern;
+
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.parsing.TokenHandler;
 import org.apache.ibatis.scripting.ScriptingException;
 import org.apache.ibatis.type.SimpleTypeRegistry;
-
-import java.util.regex.Pattern;
 
 /**
  * @author Clinton Begin
@@ -58,8 +58,8 @@ public class TextSqlNode implements SqlNode {
 
   private static class BindingTokenParser implements TokenHandler {
 
-    private final DynamicContext context;
-    private final Pattern injectionFilter;
+    private DynamicContext context;
+    private Pattern injectionFilter;
 
     public BindingTokenParser(DynamicContext context, Pattern injectionFilter) {
       this.context = context;
@@ -71,8 +71,7 @@ public class TextSqlNode implements SqlNode {
       Object parameter = context.getBindings().get("_parameter");
       if (parameter == null) {
         context.getBindings().put("value", null);
-      }
-      else if (SimpleTypeRegistry.isSimpleType(parameter.getClass())) {
+      } else if (SimpleTypeRegistry.isSimpleType(parameter.getClass())) {
         context.getBindings().put("value", parameter);
       }
       Object value = OgnlCache.getValue(content, context.getBindings());

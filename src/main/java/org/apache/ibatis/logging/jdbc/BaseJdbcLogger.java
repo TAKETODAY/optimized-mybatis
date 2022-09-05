@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +14,6 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.logging.jdbc;
-
-import org.apache.ibatis.builder.SqlSourceBuilder;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.reflection.ArrayUtil;
 
 import java.lang.reflect.Method;
 import java.sql.Array;
@@ -31,6 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.apache.ibatis.builder.SqlSourceBuilder;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.reflection.ArrayUtil;
 
 /**
  * Base class for proxies to do logging.
@@ -58,8 +58,7 @@ public abstract class BaseJdbcLogger {
     this.statementLog = log;
     if (queryStack == 0) {
       this.queryStack = 1;
-    }
-    else {
+    } else {
       this.queryStack = queryStack;
     }
   }
@@ -92,8 +91,7 @@ public abstract class BaseJdbcLogger {
     for (Object value : columnValues) {
       if (value == null) {
         typeList.add("null");
-      }
-      else {
+      } else {
         typeList.add(objectValueString(value) + "(" + value.getClass().getSimpleName() + ")");
       }
     }
@@ -105,8 +103,7 @@ public abstract class BaseJdbcLogger {
     if (value instanceof Array) {
       try {
         return ArrayUtil.toString(((Array) value).getArray());
-      }
-      catch (SQLException e) {
+      } catch (SQLException e) {
         return value.toString();
       }
     }
@@ -153,8 +150,7 @@ public abstract class BaseJdbcLogger {
     buffer[queryStack * 2 + 1] = ' ';
     if (isInput) {
       buffer[queryStack * 2] = '>';
-    }
-    else {
+    } else {
       buffer[0] = '<';
     }
     return new String(buffer);

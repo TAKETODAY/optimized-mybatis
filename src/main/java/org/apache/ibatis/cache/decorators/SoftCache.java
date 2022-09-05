@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.cache.decorators;
 
-import org.apache.ibatis.cache.Cache;
-
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Deque;
 import java.util.LinkedList;
+
+import org.apache.ibatis.cache.Cache;
 
 /**
  * Soft Reference cache decorator
@@ -71,10 +71,9 @@ public class SoftCache implements Cache {
       result = softReference.get();
       if (result == null) {
         delegate.removeObject(key);
-      }
-      else {
+      } else {
         // See #586 (and #335) modifications need more than a read lock
-        synchronized(hardLinksToAvoidGarbageCollection) {
+        synchronized (hardLinksToAvoidGarbageCollection) {
           hardLinksToAvoidGarbageCollection.addFirst(result);
           if (hardLinksToAvoidGarbageCollection.size() > numberOfHardLinks) {
             hardLinksToAvoidGarbageCollection.removeLast();
@@ -88,12 +87,14 @@ public class SoftCache implements Cache {
   @Override
   public Object removeObject(Object key) {
     removeGarbageCollectedItems();
-    return delegate.removeObject(key);
+    @SuppressWarnings("unchecked")
+    SoftReference<Object> softReference = (SoftReference<Object>) delegate.removeObject(key);
+    return softReference == null ? null : softReference.get();
   }
 
   @Override
   public void clear() {
-    synchronized(hardLinksToAvoidGarbageCollection) {
+    synchronized (hardLinksToAvoidGarbageCollection) {
       hardLinksToAvoidGarbageCollection.clear();
     }
     removeGarbageCollectedItems();

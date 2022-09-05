@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,8 +60,8 @@ public class BatchExecutorException extends ExecutorException {
    * in the list for each successful sub-executor executed before the failing
    * executor.
    *
-   * @return the previously successful executor results (may be an empty list
-   * if no executor has executed successfully)
+   * @return the previously successful executor results (maybe an empty list
+   *         if no executor has executed successfully)
    */
   public List<BatchResult> getSuccessfulBatchResults() {
     return successfulBatchResults;

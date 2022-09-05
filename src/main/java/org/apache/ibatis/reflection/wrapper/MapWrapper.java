@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,14 +15,14 @@
  */
 package org.apache.ibatis.reflection.wrapper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -41,8 +41,7 @@ public class MapWrapper extends BaseWrapper {
     if (prop.getIndex() != null) {
       Object collection = resolveCollection(prop, map);
       return getCollectionValue(prop, collection);
-    }
-    else {
+    } else {
       return map.get(prop.getName());
     }
   }
@@ -52,8 +51,7 @@ public class MapWrapper extends BaseWrapper {
     if (prop.getIndex() != null) {
       Object collection = resolveCollection(prop, map);
       setCollectionValue(prop, collection, value);
-    }
-    else {
+    } else {
       map.put(prop.getName(), value);
     }
   }
@@ -80,16 +78,13 @@ public class MapWrapper extends BaseWrapper {
       MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         return Object.class;
-      }
-      else {
+      } else {
         return metaValue.getSetterType(prop.getChildren());
       }
-    }
-    else {
+    } else {
       if (map.get(name) != null) {
         return map.get(name).getClass();
-      }
-      else {
+      } else {
         return Object.class;
       }
     }
@@ -102,16 +97,13 @@ public class MapWrapper extends BaseWrapper {
       MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         return Object.class;
-      }
-      else {
+      } else {
         return metaValue.getGetterType(prop.getChildren());
       }
-    }
-    else {
+    } else {
       if (map.get(name) != null) {
         return map.get(name).getClass();
-      }
-      else {
+      } else {
         return Object.class;
       }
     }
@@ -130,16 +122,13 @@ public class MapWrapper extends BaseWrapper {
         MetaObject metaValue = metaObject.metaObjectForProperty(prop.getIndexedName());
         if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
           return true;
-        }
-        else {
+        } else {
           return metaValue.hasGetter(prop.getChildren());
         }
-      }
-      else {
+      } else {
         return false;
       }
-    }
-    else {
+    } else {
       return map.containsKey(prop.getName());
     }
   }

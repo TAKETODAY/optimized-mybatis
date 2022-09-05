@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,13 +47,16 @@ public interface Cache {
   String getId();
 
   /**
-   * @param key Can be any object but usually it is a {@link CacheKey}
-   * @param value The result of a select.
+   * @param key
+   *          Can be any object but usually it is a {@link CacheKey}
+   * @param value
+   *          The result of a select.
    */
   void putObject(Object key, Object value);
 
   /**
-   * @param key The key
+   * @param key
+   *          The key
    * @return The object stored in the cache.
    */
   Object getObject(Object key);
@@ -68,7 +71,9 @@ public interface Cache {
    * This way other threads will wait for the value to be
    * available instead of hitting the database.
    *
-   * @param key The key
+   *
+   * @param key
+   *          The key
    * @return Not used
    */
   Object removeObject(Object key);

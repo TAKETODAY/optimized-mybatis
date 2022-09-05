@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,9 +15,6 @@
  */
 package org.apache.ibatis.mapping;
 
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -25,6 +22,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 
 /**
  * Vendor DatabaseId provider.
@@ -48,8 +48,7 @@ public class VendorDatabaseIdProvider implements DatabaseIdProvider {
     }
     try {
       return getDatabaseName(dataSource);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       LogHolder.log.error("Could not get a databaseId from dataSource", e);
     }
     return null;

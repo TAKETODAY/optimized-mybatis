@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -85,7 +85,8 @@ public class ScriptRunner {
   /**
    * Sets the escape processing.
    *
-   * @param escapeProcessing the new escape processing
+   * @param escapeProcessing
+   *          the new escape processing
    * @since 3.1.1
    */
   public void setEscapeProcessing(boolean escapeProcessing) {
@@ -114,12 +115,10 @@ public class ScriptRunner {
     try {
       if (sendFullScript) {
         executeFullScript(reader);
-      }
-      else {
+      } else {
         executeLineByLine(reader);
       }
-    }
-    finally {
+    } finally {
       rollbackConnection();
     }
   }
@@ -137,8 +136,7 @@ public class ScriptRunner {
       println(command);
       executeStatement(command);
       commitConnection();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       String message = "Error executing: " + script + ".  Cause: " + e;
       printlnError(message);
       throw new RuntimeSqlException(message, e);
@@ -155,8 +153,7 @@ public class ScriptRunner {
       }
       commitConnection();
       checkForMissingLineTerminator(command);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       String message = "Error executing: " + command + ".  Cause: " + e;
       printlnError(message);
       throw new RuntimeSqlException(message, e);
@@ -170,8 +167,7 @@ public class ScriptRunner {
   public void closeConnection() {
     try {
       connection.close();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       // ignore
     }
   }
@@ -181,8 +177,7 @@ public class ScriptRunner {
       if (autoCommit != connection.getAutoCommit()) {
         connection.setAutoCommit(autoCommit);
       }
-    }
-    catch (Throwable t) {
+    } catch (Throwable t) {
       throw new RuntimeSqlException("Could not set AutoCommit to " + autoCommit + ". Cause: " + t, t);
     }
   }
@@ -192,8 +187,7 @@ public class ScriptRunner {
       if (!connection.getAutoCommit()) {
         connection.commit();
       }
-    }
-    catch (Throwable t) {
+    } catch (Throwable t) {
       throw new RuntimeSqlException("Could not commit transaction. Cause: " + t, t);
     }
   }
@@ -203,8 +197,7 @@ public class ScriptRunner {
       if (!connection.getAutoCommit()) {
         connection.rollback();
       }
-    }
-    catch (Throwable t) {
+    } catch (Throwable t) {
       // ignore
     }
   }
@@ -223,15 +216,13 @@ public class ScriptRunner {
         delimiter = matcher.group(5);
       }
       println(trimmedLine);
-    }
-    else if (commandReadyToExecute(trimmedLine)) {
+    } else if (commandReadyToExecute(trimmedLine)) {
       command.append(line, 0, line.lastIndexOf(delimiter));
       command.append(LINE_SEPARATOR);
       println(command);
       executeStatement(command.toString());
       command.setLength(0);
-    }
-    else if (trimmedLine.length() > 0) {
+    } else if (trimmedLine.length() > 0) {
       command.append(line);
       command.append(LINE_SEPARATOR);
     }
@@ -260,15 +251,12 @@ public class ScriptRunner {
           printResults(statement, hasResults);
           hasResults = statement.getMoreResults();
         }
-      }
-      catch (SQLWarning e) {
+      } catch (SQLWarning e) {
         throw e;
-      }
-      catch (SQLException e) {
+      } catch (SQLException e) {
         if (stopOnError) {
           throw e;
-        }
-        else {
+        } else {
           String message = "Error executing: " + command + ".  Cause: " + e;
           printlnError(message);
         }
@@ -307,8 +295,7 @@ public class ScriptRunner {
         }
         println("");
       }
-    }
-    catch (SQLException e) {
+    } catch (SQLException e) {
       printlnError("Error printing results: " + e.getMessage());
     }
   }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2021-2022 the original author or authors.
+       Copyright 2009-2022 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
        You may obtain a copy of the License at
 
-          http://www.apache.org/licenses/LICENSE-2.0
+          https://www.apache.org/licenses/LICENSE-2.0
 
        Unless required by applicable law or agreed to in writing, software
        distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,10 @@
 
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+      xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 https://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Optimized MyBatis | XML 映射器</title>
+    <title>MyBatis 3 | XML 映射器</title>
     <author email="clinton.begin@gmail.com">Clinton Begin</author>
     <author email="nanlei1987@gmail.com">Nan Lei</author>
     <author email="echowdx@gmail.com">Dongxu Wang</author>
@@ -223,8 +223,8 @@ ps.setInt(1,id);]]></source>
               <td><code>resultOrdered</code></td>
               <td>
                 这个设置仅针对嵌套结果 select 语句：如果为
-                true，将会假设包含了嵌套结果集或是分组，当返回一个主结果行时，就不会产生对前面结果集的引用。
-                这就使得在获取嵌套结果集的时候不至于内存不够用。默认值：<code>false</code>。
+                true，则假设结果集以正确顺序（排序后）执行映射，当返回新的主结果行时，将不再发生对以前结果行的引用。
+                这样可以减少内存消耗。默认值：<code>false</code>。
               </td>
             </tr>
             <tr>
@@ -575,9 +575,9 @@ ps.setInt(1,id);]]></source>
           如果 <code>mode</code> 为 <code>OUT</code>（或 <code>INOUT</code>），而且
           <code>jdbcType</code> 为 <code>CURSOR</code>（也就是 Oracle 的
           REFCURSOR），你必须指定一个 <code>resultMap</code> 引用来将结果集
-          <code>ResultMap</code> 映射到参数的类型上。要注意这里的
+          <code>ResultSet</code> 映射到参数的类型上。要注意这里的
           <code>javaType</code> 属性是可选的，如果留空并且 jdbcType 是
-          <code>CURSOR</code>，它会被自动地被设为 <code>ResultMap</code>。
+          <code>CURSOR</code>，它会被自动地被设为 <code>ResultSet</code>。
         </p>
 
         <source><![CDATA[#{department, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=departmentResultMap}]]></source>
@@ -1391,7 +1391,7 @@ public class User {
               <td>
                 默认情况下，在至少一个被映射到属性的列不为空时，子对象才会被创建。
                 你可以在这个属性上指定非空的列来改变默认行为，指定后，Mybatis
-                将只在这些列非空时才创建一个子对象。可以使用逗号分隔来指定多个列。默认值：未设置（unset）。
+                将只在这些列中任意一列非空时才创建一个子对象。可以使用逗号分隔来指定多个列。默认值：未设置（unset）。
               </td>
             </tr>
             <tr>
@@ -1950,7 +1950,7 @@ SELECT * FROM POST WHERE BLOG_ID = #{id}]]></source>
       <subsection name="缓存" id="cache">
         <p>
           MyBatis 内置了一个强大的事务性查询缓存机制，它可以非常方便地配置和定制。
-          为了使它更加强大而且易于配置，我们对 Optimized MyBatis 中的缓存实现进行了许多改进。
+          为了使它更加强大而且易于配置，我们对 MyBatis 3 中的缓存实现进行了许多改进。
         </p>
 
         <p>

@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,8 +14,6 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.datasource.unpooled;
-
-import org.apache.ibatis.io.Resources;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -32,6 +30,8 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.io.Resources;
+
 /**
  * @author Clinton Begin
  * @author Eduardo Macarron
@@ -40,7 +40,7 @@ public class UnpooledDataSource implements DataSource {
 
   private ClassLoader driverClassLoader;
   private Properties driverProperties;
-  private static final Map<String, Driver> registeredDrivers = new ConcurrentHashMap<>();
+  private static Map<String, Driver> registeredDrivers = new ConcurrentHashMap<>();
 
   private String driver;
   private String url;
@@ -197,7 +197,8 @@ public class UnpooledDataSource implements DataSource {
   /**
    * Sets the default network timeout value to wait for the database operation to complete. See {@link Connection#setNetworkTimeout(java.util.concurrent.Executor, int)}
    *
-   * @param defaultNetworkTimeout The time in milliseconds to wait for the database operation to complete.
+   * @param defaultNetworkTimeout
+   *          The time in milliseconds to wait for the database operation to complete.
    * @since 3.5.2
    */
   public void setDefaultNetworkTimeout(Integer defaultNetworkTimeout) {
@@ -231,17 +232,15 @@ public class UnpooledDataSource implements DataSource {
       try {
         if (driverClassLoader != null) {
           driverType = Class.forName(driver, true, driverClassLoader);
-        }
-        else {
+        } else {
           driverType = Resources.classForName(driver);
         }
         // DriverManager requires the driver to be loaded via the system ClassLoader.
-        // http://www.kfu.com/~nsayer/Java/dyn-jdbc.html
+        // https://www.kfu.com/~nsayer/Java/dyn-jdbc.html
         Driver driverInstance = (Driver) driverType.getDeclaredConstructor().newInstance();
         DriverManager.registerDriver(new DriverProxy(driverInstance));
         registeredDrivers.put(driver, driverInstance);
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         throw new SQLException("Error setting driver on UnpooledDataSource. Cause: " + e);
       }
     }
@@ -260,7 +259,7 @@ public class UnpooledDataSource implements DataSource {
   }
 
   private static class DriverProxy implements Driver {
-    private final Driver driver;
+    private Driver driver;
 
     DriverProxy(Driver d) {
       this.driver = d;

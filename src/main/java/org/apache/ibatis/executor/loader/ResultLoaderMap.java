@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +14,6 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.executor.loader;
-
-import org.apache.ibatis.cursor.Cursor;
-import org.apache.ibatis.executor.BaseExecutor;
-import org.apache.ibatis.executor.BatchResult;
-import org.apache.ibatis.executor.ExecutorException;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.RowBounds;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -40,6 +27,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.ibatis.cursor.Cursor;
+import org.apache.ibatis.executor.BaseExecutor;
+import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.executor.ExecutorException;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 
 /**
  * @author Clinton Begin
@@ -134,7 +134,7 @@ public class ResultLoaderMap {
     /**
      * Name of the unread property.
      */
-    private final String property;
+    private String property;
     /**
      * ID of SQL statement which loads the property.
      */
@@ -159,8 +159,7 @@ public class ResultLoaderMap {
           this.mappedParameter = (Serializable) mappedStatementParameter;
 
           this.configurationFactory = resultLoader.configuration.getConfigurationFactory();
-        }
-        else {
+        } else {
           Log log = this.getLogger();
           if (log.isDebugEnabled()) {
             log.debug("Property [" + this.property + "] of ["
@@ -239,30 +238,24 @@ public class ResultLoaderMap {
             try {
               factoryMethod.setAccessible(true);
               return factoryMethod.invoke(null);
-            }
-            finally {
+            } finally {
               factoryMethod.setAccessible(false);
             }
           });
-        }
-        else {
+        } else {
           configurationObject = factoryMethod.invoke(null);
         }
-      }
-      catch (final ExecutorException ex) {
+      } catch (final ExecutorException ex) {
         throw ex;
-      }
-      catch (final NoSuchMethodException ex) {
+      } catch (final NoSuchMethodException ex) {
         throw new ExecutorException("Cannot get Configuration as factory class ["
                 + this.configurationFactory + "] is missing factory method of name ["
                 + FACTORY_METHOD + "].", ex);
-      }
-      catch (final PrivilegedActionException ex) {
+      } catch (final PrivilegedActionException ex) {
         throw new ExecutorException("Cannot get Configuration as factory method ["
                 + this.configurationFactory + "]#["
                 + FACTORY_METHOD + "] threw an exception.", ex.getCause());
-      }
-      catch (final Exception ex) {
+      } catch (final Exception ex) {
         throw new ExecutorException("Cannot get Configuration as factory method ["
                 + this.configurationFactory + "]#["
                 + FACTORY_METHOD + "] threw an exception.", ex);
@@ -275,7 +268,7 @@ public class ResultLoaderMap {
                 + (configurationObject == null ? "null" : configurationObject.getClass()) + "].");
       }
 
-      return (Configuration) configurationObject;
+      return Configuration.class.cast(configurationObject);
     }
 
     private Log getLogger() {

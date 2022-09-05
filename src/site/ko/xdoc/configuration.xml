@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2021-2022 the original author or authors.
+       Copyright 2009-2022 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
        You may obtain a copy of the License at
 
-          http://www.apache.org/licenses/LICENSE-2.0
+          https://www.apache.org/licenses/LICENSE-2.0
 
        Unless required by applicable law or agreed to in writing, software
        distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 https://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
     <title>마이바티스 3 | 매퍼 설정 </title>
@@ -493,7 +493,7 @@ SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(reader, environ
                 이 설정을 사용하지 않으면 마이바티스가 사용할 로깅 구현체를 자동으로 찾는다.
               </td>
               <td>
-                SLF4J | LOG4J | LOG4J2 | JDK_LOGGING | COMMONS_LOGGING | STDOUT_LOGGING | NO_LOGGING
+                SLF4J | LOG4J(deprecated since 3.5.9) | LOG4J2 | JDK_LOGGING | COMMONS_LOGGING | STDOUT_LOGGING | NO_LOGGING
               </td>
               <td>
                 설정하지 않음
@@ -507,7 +507,7 @@ SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(reader, environ
                 마이바티스가 지연로딩을 처리할 객체를 생성할 때 사용할 프록시 툴을 명시
               </td>
               <td>
-                CGLIB | JAVASSIST
+                CGLIB (deprecated since 3.5.10) | JAVASSIST
               </td>
               <td>
                 JAVASSIST (마이바티스 3.3과 이상의 버전)
@@ -582,6 +582,34 @@ SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(reader, environ
               </td>
               <td>
                 설정하지 않음
+              </td>
+            </tr>
+            <tr>
+              <td>
+                nullableOnForEach
+              </td>
+              <td>
+                Specifies the default value of 'nullable' attribute on 'foreach' tag. (Since 3.5.9)
+              </td>
+              <td>
+                true | false
+              </td>
+              <td>
+                false
+              </td>
+            </tr>
+            <tr>
+              <td>
+                argNameBasedConstructorAutoMapping
+              </td>
+              <td>
+                When applying constructor auto-mapping, argument name is used to search the column to map instead of relying on the column order. (Since 3.5.10)
+              </td>
+              <td>
+                true | false
+              </td>
+              <td>
+                false
               </td>
             </tr>
           </tbody>
@@ -662,6 +690,22 @@ public class Author {
             </tr>
             <tr>
               <td>
+                _char (since 3.5.10)
+              </td>
+              <td>
+                char
+              </td>
+            </tr>
+            <tr>
+              <td>
+                _character (since 3.5.10)
+              </td>
+              <td>
+                char
+              </td>
+            </tr>
+            <tr>
+              <td>
                 _long
               </td>
               <td>
@@ -730,6 +774,22 @@ public class Author {
               </td>
               <td>
                 Byte
+              </td>
+            </tr>
+            <tr>
+              <td>
+                char (since 3.5.10)
+              </td>
+              <td>
+                Character
+              </td>
+            </tr>
+            <tr>
+              <td>
+                character (since 3.5.10)
+              </td>
+              <td>
+                Character
               </td>
             </tr>
             <tr>
@@ -814,10 +874,58 @@ public class Author {
             </tr>
             <tr>
               <td>
+                biginteger
+              </td>
+              <td>
+                BigInteger
+              </td>
+            </tr>
+            <tr>
+              <td>
                 object
               </td>
               <td>
                 Object
+              </td>
+            </tr>
+            <tr>
+              <td>
+                date[]
+              </td>
+              <td>
+                Date[]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                decimal[]
+              </td>
+              <td>
+                BigDecimal[]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                bigdecimal[]
+              </td>
+              <td>
+                BigDecimal[]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                biginteger[]
+              </td>
+              <td>
+                BigInteger[]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                object[]
+              </td>
+              <td>
+                Object[]
               </td>
             </tr>
             <tr>
@@ -1409,7 +1517,7 @@ public class GenericTypeHandler<E extends MyObject> extends BaseTypeHandler<E> {
       	</p>
       	<source><![CDATA[<!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.apache.ibatis.submitted.rounding.Mapper">
 	<resultMap type="org.apache.ibatis.submitted.rounding.User" id="usermap">
@@ -1457,15 +1565,22 @@ public class GenericTypeHandler<E extends MyObject> extends BaseTypeHandler<E> {
 		예를들면:</p>
         <source><![CDATA[// ExampleObjectFactory.java
 public class ExampleObjectFactory extends DefaultObjectFactory {
-  public Object create(Class type) {
+  @Override
+  public <T> T create(Class<T> type) {
     return super.create(type);
   }
-  public Object create(Class type, List<Class> constructorArgTypes, List<Object> constructorArgs) {
+
+  @Override
+  public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     return super.create(type, constructorArgTypes, constructorArgs);
   }
+
+  @Override
   public void setProperties(Properties properties) {
     super.setProperties(properties);
   }
+
+  @Override
   public <T> boolean isCollection(Class<T> type) {
     return Collection.class.isAssignableFrom(type);
   }}
@@ -1518,12 +1633,16 @@ public class ExampleObjectFactory extends DefaultObjectFactory {
   args = {MappedStatement.class,Object.class})})
 public class ExamplePlugin implements Interceptor {
   private Properties properties = new Properties();
+
+  @Override
   public Object intercept(Invocation invocation) throws Throwable {
     // implement pre processing if need
     Object returnObject = invocation.proceed();
     // implement post processing if need
     return returnObject;
   }
+
+  @Override
   public void setProperties(Properties properties) {
     this.properties = properties;
   }
@@ -1599,7 +1718,11 @@ SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(reader,properti
         <p>마이바티스는 두 가지 타입의 TransactionManager를 제공한다.</p>
         <ul>
           <li>JDBC - 이 설정은 간단하게 JDBC 커밋과 롤백을 처리하기 위해 사용된다.
-		  트랜잭션의 스코프를 관리하기 위해 dataSource 로 부터 커넥션을 가져온다. </li>
+		  트랜잭션의 스코프를 관리하기 위해 dataSource 로 부터 커넥션을 가져온다. By default, it enables auto-commit when closing the connection for compatibility with some drivers. However, for some drivers, enabling auto-commit is not only unnecesry, but also is an expensive operation. So, since version 3.5.10, you can skip this step by setting the "skipSetAutoCommitOnClose" property to true. For example:
+            <source><![CDATA[<transactionManager type="JDBC">
+  <property name="skipSetAutoCommitOnClose" value="true"/>
+</transactionManager>]]></source>
+          </li>
           <li>MANAGED - 이 설정은 어떤것도 하지 않는다.
 		  결코 커밋이나 롤백을 하지 않는다.
 		  대신 컨테이너가 트랜잭션의 모든 생명주기를 관리한다.

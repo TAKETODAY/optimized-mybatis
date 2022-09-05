@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,7 +50,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Sets the.
    *
-   * @param sets the sets
+   * @param sets
+   *          the sets
    * @return the t
    * @since 3.4.2
    */
@@ -74,7 +75,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Into columns.
    *
-   * @param columns the columns
+   * @param columns
+   *          the columns
    * @return the t
    * @since 3.4.2
    */
@@ -86,7 +88,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Into values.
    *
-   * @param values the values
+   * @param values
+   *          the values
    * @return the t
    * @since 3.4.2
    */
@@ -105,7 +108,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Select.
    *
-   * @param columns the columns
+   * @param columns
+   *          the columns
    * @return the t
    * @since 3.4.2
    */
@@ -124,7 +128,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Select distinct.
    *
-   * @param columns the columns
+   * @param columns
+   *          the columns
    * @return the t
    * @since 3.4.2
    */
@@ -148,7 +153,8 @@ public abstract class AbstractSQL<T> {
   /**
    * From.
    *
-   * @param tables the tables
+   * @param tables
+   *          the tables
    * @return the t
    * @since 3.4.2
    */
@@ -165,7 +171,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Join.
    *
-   * @param joins the joins
+   * @param joins
+   *          the joins
    * @return the t
    * @since 3.4.2
    */
@@ -182,7 +189,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Inner join.
    *
-   * @param joins the joins
+   * @param joins
+   *          the joins
    * @return the t
    * @since 3.4.2
    */
@@ -199,7 +207,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Left outer join.
    *
-   * @param joins the joins
+   * @param joins
+   *          the joins
    * @return the t
    * @since 3.4.2
    */
@@ -216,7 +225,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Right outer join.
    *
-   * @param joins the joins
+   * @param joins
+   *          the joins
    * @return the t
    * @since 3.4.2
    */
@@ -233,7 +243,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Outer join.
    *
-   * @param joins the joins
+   * @param joins
+   *          the joins
    * @return the t
    * @since 3.4.2
    */
@@ -251,7 +262,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Where.
    *
-   * @param conditions the conditions
+   * @param conditions
+   *          the conditions
    * @return the t
    * @since 3.4.2
    */
@@ -279,7 +291,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Group by.
    *
-   * @param columns the columns
+   * @param columns
+   *          the columns
    * @return the t
    * @since 3.4.2
    */
@@ -297,7 +310,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Having.
    *
-   * @param conditions the conditions
+   * @param conditions
+   *          the conditions
    * @return the t
    * @since 3.4.2
    */
@@ -315,7 +329,8 @@ public abstract class AbstractSQL<T> {
   /**
    * Order by.
    *
-   * @param columns the columns
+   * @param columns
+   *          the columns
    * @return the t
    * @since 3.4.2
    */
@@ -470,8 +485,7 @@ public abstract class AbstractSQL<T> {
           empty = false;
         }
         appendable.append(s);
-      }
-      catch (IOException e) {
+      } catch (IOException e) {
         throw new RuntimeException(e);
       }
       return this;
@@ -574,8 +588,7 @@ public abstract class AbstractSQL<T> {
     private String selectSQL(SafeAppendable builder) {
       if (distinct) {
         sqlClause(builder, "SELECT DISTINCT", select, "", "", ", ");
-      }
-      else {
+      } else {
         sqlClause(builder, "SELECT", select, "", "", ", ");
       }
 

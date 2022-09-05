@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,27 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.builder.annotation;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.CacheNamespace;
@@ -69,27 +90,6 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * @author Clinton Begin
  * @author Kazuki Shimizu
@@ -97,9 +97,9 @@ import java.util.stream.Stream;
 public class MapperAnnotationBuilder {
 
   private static final Set<Class<? extends Annotation>> statementAnnotationTypes = Stream
-          .of(Select.class, Update.class, Insert.class, Delete.class, SelectProvider.class, UpdateProvider.class,
-                  InsertProvider.class, DeleteProvider.class)
-          .collect(Collectors.toSet());
+      .of(Select.class, Update.class, Insert.class, Delete.class, SelectProvider.class, UpdateProvider.class,
+          InsertProvider.class, DeleteProvider.class)
+      .collect(Collectors.toSet());
 
   private final Configuration configuration;
   private final MapperBuilderAssistant assistant;
@@ -125,13 +125,12 @@ public class MapperAnnotationBuilder {
           continue;
         }
         if (getAnnotationWrapper(method, false, Select.class, SelectProvider.class).isPresent()
-                && method.getAnnotation(ResultMap.class) == null) {
+            && method.getAnnotation(ResultMap.class) == null) {
           parseResultMap(method);
         }
         try {
           parseStatement(method);
-        }
-        catch (IncompleteElementException e) {
+        } catch (IncompleteElementException e) {
           configuration.addIncompleteMethod(new MethodResolver(this, method));
         }
       }
@@ -146,14 +145,13 @@ public class MapperAnnotationBuilder {
 
   private void parsePendingMethods() {
     Collection<MethodResolver> incompleteMethods = configuration.getIncompleteMethods();
-    synchronized(incompleteMethods) {
+    synchronized (incompleteMethods) {
       Iterator<MethodResolver> iter = incompleteMethods.iterator();
       while (iter.hasNext()) {
         try {
           iter.next().resolve();
           iter.remove();
-        }
-        catch (IncompleteElementException e) {
+        } catch (IncompleteElementException e) {
           // This method is still missing a resource
         }
       }
@@ -172,8 +170,7 @@ public class MapperAnnotationBuilder {
         // Search XML mapper that is not in the module but in the classpath.
         try {
           inputStream = Resources.getResourceAsStream(type.getClassLoader(), xmlResource);
-        }
-        catch (IOException e2) {
+        } catch (IOException e2) {
           // ignore, resource is not required
         }
       }
@@ -201,7 +198,7 @@ public class MapperAnnotationBuilder {
     Properties props = new Properties();
     for (Property property : properties) {
       props.setProperty(property.name(),
-              PropertyParser.parse(property.value(), configuration.getVariables()));
+          PropertyParser.parse(property.value(), configuration.getVariables()));
     }
     return props;
   }
@@ -220,8 +217,7 @@ public class MapperAnnotationBuilder {
       String namespace = (refType != void.class) ? refType.getName() : refName;
       try {
         assistant.useCacheRef(namespace);
-      }
-      catch (IncompleteElementException e) {
+      } catch (IncompleteElementException e) {
         configuration.addIncompleteCacheRef(new CacheRefResolver(assistant, namespace));
       }
     }
@@ -304,7 +300,7 @@ public class MapperAnnotationBuilder {
     getAnnotationWrapper(method, true, statementAnnotationTypes).ifPresent(statementAnnotation -> {
       final SqlSource sqlSource = buildSqlSource(statementAnnotation.getAnnotation(), parameterTypeClass, languageDriver, method);
       final SqlCommandType sqlCommandType = statementAnnotation.getSqlCommandType();
-      final Options options = getAnnotationWrapper(method, false, Options.class).map(x -> (Options) x.getAnnotation()).orElse(null);
+      final Options options = getAnnotationWrapper(method, false, Options.class).map(x -> (Options)x.getAnnotation()).orElse(null);
       final String mappedStatementId = type.getName() + "." + method.getName();
 
       final KeyGenerator keyGenerator;
@@ -312,21 +308,18 @@ public class MapperAnnotationBuilder {
       String keyColumn = null;
       if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
         // first check for SelectKey annotation - that overrides everything else
-        SelectKey selectKey = getAnnotationWrapper(method, false, SelectKey.class).map(x -> (SelectKey) x.getAnnotation()).orElse(null);
+        SelectKey selectKey = getAnnotationWrapper(method, false, SelectKey.class).map(x -> (SelectKey)x.getAnnotation()).orElse(null);
         if (selectKey != null) {
           keyGenerator = handleSelectKeyAnnotation(selectKey, mappedStatementId, getParameterType(method), languageDriver);
           keyProperty = selectKey.keyProperty();
-        }
-        else if (options == null) {
+        } else if (options == null) {
           keyGenerator = configuration.isUseGeneratedKeys() ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
-        }
-        else {
+        } else {
           keyGenerator = options.useGeneratedKeys() ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
           keyProperty = options.keyProperty();
           keyColumn = options.keyColumn();
         }
-      }
-      else {
+      } else {
         keyGenerator = NoKeyGenerator.INSTANCE;
       }
 
@@ -340,8 +333,7 @@ public class MapperAnnotationBuilder {
       if (options != null) {
         if (FlushCachePolicy.TRUE.equals(options.flushCache())) {
           flushCache = true;
-        }
-        else if (FlushCachePolicy.FALSE.equals(options.flushCache())) {
+        } else if (FlushCachePolicy.FALSE.equals(options.flushCache())) {
           flushCache = false;
         }
         useCache = options.useCache();
@@ -358,36 +350,35 @@ public class MapperAnnotationBuilder {
         ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
         if (resultMapAnnotation != null) {
           resultMapId = String.join(",", resultMapAnnotation.value());
-        }
-        else {
+        } else {
           resultMapId = generateResultMapName(method);
         }
       }
 
       assistant.addMappedStatement(
-              mappedStatementId,
-              sqlSource,
-              statementType,
-              sqlCommandType,
-              fetchSize,
-              timeout,
-              // ParameterMapID
-              null,
-              parameterTypeClass,
-              resultMapId,
-              getReturnType(method),
-              resultSetType,
-              flushCache,
-              useCache,
-              // TODO gcode issue #577
-              false,
-              keyGenerator,
-              keyProperty,
-              keyColumn,
-              statementAnnotation.getDatabaseId(),
-              languageDriver,
-              // ResultSets
-              options != null ? nullOrEmpty(options.resultSets()) : null);
+          mappedStatementId,
+          sqlSource,
+          statementType,
+          sqlCommandType,
+          fetchSize,
+          timeout,
+          // ParameterMapID
+          null,
+          parameterTypeClass,
+          resultMapId,
+          getReturnType(method),
+          resultSetType,
+          flushCache,
+          useCache,
+          // TODO gcode issue #577
+          false,
+          keyGenerator,
+          keyProperty,
+          keyColumn,
+          statementAnnotation.getDatabaseId(),
+          languageDriver,
+          // ResultSets
+          options != null ? nullOrEmpty(options.resultSets()) : null);
     });
   }
 
@@ -407,8 +398,7 @@ public class MapperAnnotationBuilder {
       if (!RowBounds.class.isAssignableFrom(currentParameterType) && !ResultHandler.class.isAssignableFrom(currentParameterType)) {
         if (parameterType == null) {
           parameterType = currentParameterType;
-        }
-        else {
+        } else {
           // issue #135
           parameterType = ParamMap.class;
         }
@@ -432,8 +422,7 @@ public class MapperAnnotationBuilder {
           returnType = rt.value();
         }
       }
-    }
-    else if (resolvedReturnType instanceof ParameterizedType) {
+    } else if (resolvedReturnType instanceof ParameterizedType) {
       ParameterizedType parameterizedType = (ParameterizedType) resolvedReturnType;
       Class<?> rawType = (Class<?>) parameterizedType.getRawType();
       if (Collection.class.isAssignableFrom(rawType) || Cursor.class.isAssignableFrom(rawType)) {
@@ -442,33 +431,28 @@ public class MapperAnnotationBuilder {
           Type returnTypeParameter = actualTypeArguments[0];
           if (returnTypeParameter instanceof Class<?>) {
             returnType = (Class<?>) returnTypeParameter;
-          }
-          else if (returnTypeParameter instanceof ParameterizedType) {
+          } else if (returnTypeParameter instanceof ParameterizedType) {
             // (gcode issue #443) actual type can be a also a parameterized type
             returnType = (Class<?>) ((ParameterizedType) returnTypeParameter).getRawType();
-          }
-          else if (returnTypeParameter instanceof GenericArrayType) {
+          } else if (returnTypeParameter instanceof GenericArrayType) {
             Class<?> componentType = (Class<?>) ((GenericArrayType) returnTypeParameter).getGenericComponentType();
             // (gcode issue #525) support List<byte[]>
             returnType = Array.newInstance(componentType, 0).getClass();
           }
         }
-      }
-      else if (method.isAnnotationPresent(MapKey.class) && Map.class.isAssignableFrom(rawType)) {
+      } else if (method.isAnnotationPresent(MapKey.class) && Map.class.isAssignableFrom(rawType)) {
         // (gcode issue 504) Do not look into Maps if there is not MapKey annotation
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
         if (actualTypeArguments != null && actualTypeArguments.length == 2) {
           Type returnTypeParameter = actualTypeArguments[1];
           if (returnTypeParameter instanceof Class<?>) {
             returnType = (Class<?>) returnTypeParameter;
-          }
-          else if (returnTypeParameter instanceof ParameterizedType) {
+          } else if (returnTypeParameter instanceof ParameterizedType) {
             // (gcode issue 443) actual type can be a also a parameterized type
             returnType = (Class<?>) ((ParameterizedType) returnTypeParameter).getRawType();
           }
         }
-      }
-      else if (Optional.class.equals(rawType)) {
+      } else if (Optional.class.equals(rawType)) {
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
         Type returnTypeParameter = actualTypeArguments[0];
         if (returnTypeParameter instanceof Class<?>) {
@@ -491,20 +475,20 @@ public class MapperAnnotationBuilder {
               ((result.typeHandler() == UnknownTypeHandler.class) ? null : result.typeHandler());
       boolean hasNestedResultMap = hasNestedResultMap(result);
       ResultMapping resultMapping = assistant.buildResultMapping(
-              resultType,
-              nullOrEmpty(result.property()),
-              nullOrEmpty(result.column()),
-              result.javaType() == void.class ? null : result.javaType(),
-              result.jdbcType() == JdbcType.UNDEFINED ? null : result.jdbcType(),
-              hasNestedSelect(result) ? nestedSelectId(result) : null,
-              hasNestedResultMap ? nestedResultMapId(result) : null,
-              null,
-              hasNestedResultMap ? findColumnPrefix(result) : null,
-              typeHandler,
-              flags,
-              null,
-              null,
-              isLazy(result));
+          resultType,
+          nullOrEmpty(result.property()),
+          nullOrEmpty(result.column()),
+          result.javaType() == void.class ? null : result.javaType(),
+          result.jdbcType() == JdbcType.UNDEFINED ? null : result.jdbcType(),
+          hasNestedSelect(result) ? nestedSelectId(result) : null,
+          hasNestedResultMap ? nestedResultMapId(result) : null,
+          null,
+          hasNestedResultMap ? findColumnPrefix(result) : null,
+          typeHandler,
+          flags,
+          null,
+          null,
+          isLazy(result));
       resultMappings.add(resultMapping);
     }
   }
@@ -550,8 +534,7 @@ public class MapperAnnotationBuilder {
     boolean isLazy = configuration.isLazyLoadingEnabled();
     if (result.one().select().length() > 0 && FetchType.DEFAULT != result.one().fetchType()) {
       isLazy = result.one().fetchType() == FetchType.LAZY;
-    }
-    else if (result.many().select().length() > 0 && FetchType.DEFAULT != result.many().fetchType()) {
+    } else if (result.many().select().length() > 0 && FetchType.DEFAULT != result.many().fetchType()) {
       isLazy = result.many().fetchType() == FetchType.LAZY;
     }
     return isLazy;
@@ -575,20 +558,20 @@ public class MapperAnnotationBuilder {
       Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>)
               (arg.typeHandler() == UnknownTypeHandler.class ? null : arg.typeHandler());
       ResultMapping resultMapping = assistant.buildResultMapping(
-              resultType,
-              nullOrEmpty(arg.name()),
-              nullOrEmpty(arg.column()),
-              arg.javaType() == void.class ? null : arg.javaType(),
-              arg.jdbcType() == JdbcType.UNDEFINED ? null : arg.jdbcType(),
-              nullOrEmpty(arg.select()),
-              nullOrEmpty(arg.resultMap()),
-              null,
-              nullOrEmpty(arg.columnPrefix()),
-              typeHandler,
-              flags,
-              null,
-              null,
-              false);
+          resultType,
+          nullOrEmpty(arg.name()),
+          nullOrEmpty(arg.column()),
+          arg.javaType() == void.class ? null : arg.javaType(),
+          arg.jdbcType() == JdbcType.UNDEFINED ? null : arg.jdbcType(),
+          nullOrEmpty(arg.select()),
+          nullOrEmpty(arg.resultMap()),
+          null,
+          nullOrEmpty(arg.columnPrefix()),
+          typeHandler,
+          flags,
+          null,
+          null,
+          false);
       resultMappings.add(resultMapping);
     }
   }
@@ -620,8 +603,8 @@ public class MapperAnnotationBuilder {
     SqlCommandType sqlCommandType = SqlCommandType.SELECT;
 
     assistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType, fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass, resultSetTypeEnum,
-            flushCache, useCache, false,
-            keyGenerator, keyProperty, keyColumn, databaseId, languageDriver, null);
+        flushCache, useCache, false,
+        keyGenerator, keyProperty, keyColumn, databaseId, languageDriver, null);
 
     id = assistant.applyCurrentNamespace(id, false);
 
@@ -632,46 +615,42 @@ public class MapperAnnotationBuilder {
   }
 
   private SqlSource buildSqlSource(Annotation annotation, Class<?> parameterType, LanguageDriver languageDriver,
-                                   Method method) {
+      Method method) {
     if (annotation instanceof Select) {
       return buildSqlSourceFromStrings(((Select) annotation).value(), parameterType, languageDriver);
-    }
-    else if (annotation instanceof Update) {
+    } else if (annotation instanceof Update) {
       return buildSqlSourceFromStrings(((Update) annotation).value(), parameterType, languageDriver);
-    }
-    else if (annotation instanceof Insert) {
+    } else if (annotation instanceof Insert) {
       return buildSqlSourceFromStrings(((Insert) annotation).value(), parameterType, languageDriver);
-    }
-    else if (annotation instanceof Delete) {
+    } else if (annotation instanceof Delete) {
       return buildSqlSourceFromStrings(((Delete) annotation).value(), parameterType, languageDriver);
-    }
-    else if (annotation instanceof SelectKey) {
+    } else if (annotation instanceof SelectKey) {
       return buildSqlSourceFromStrings(((SelectKey) annotation).statement(), parameterType, languageDriver);
     }
     return new ProviderSqlSource(assistant.getConfiguration(), annotation, type, method);
   }
 
   private SqlSource buildSqlSourceFromStrings(String[] strings, Class<?> parameterTypeClass,
-                                              LanguageDriver languageDriver) {
+      LanguageDriver languageDriver) {
     return languageDriver.createSqlSource(configuration, String.join(" ", strings).trim(), parameterTypeClass);
   }
 
   @SafeVarargs
   private final Optional<AnnotationWrapper> getAnnotationWrapper(Method method, boolean errorIfNoMatch,
-                                                                 Class<? extends Annotation>... targetTypes) {
+      Class<? extends Annotation>... targetTypes) {
     return getAnnotationWrapper(method, errorIfNoMatch, Arrays.asList(targetTypes));
   }
 
   private Optional<AnnotationWrapper> getAnnotationWrapper(Method method, boolean errorIfNoMatch,
-                                                           Collection<Class<? extends Annotation>> targetTypes) {
+      Collection<Class<? extends Annotation>> targetTypes) {
     String databaseId = configuration.getDatabaseId();
     Map<String, AnnotationWrapper> statementAnnotations = targetTypes.stream()
-            .flatMap(x -> Arrays.stream(method.getAnnotationsByType(x))).map(AnnotationWrapper::new)
-            .collect(Collectors.toMap(AnnotationWrapper::getDatabaseId, x -> x, (existing, duplicate) -> {
-              throw new BuilderException(String.format("Detected conflicting annotations '%s' and '%s' on '%s'.",
-                      existing.getAnnotation(), duplicate.getAnnotation(),
-                      method.getDeclaringClass().getName() + "." + method.getName()));
-            }));
+        .flatMap(x -> Arrays.stream(method.getAnnotationsByType(x))).map(AnnotationWrapper::new)
+        .collect(Collectors.toMap(AnnotationWrapper::getDatabaseId, x -> x, (existing, duplicate) -> {
+          throw new BuilderException(String.format("Detected conflicting annotations '%s' and '%s' on '%s'.",
+              existing.getAnnotation(), duplicate.getAnnotation(),
+              method.getDeclaringClass().getName() + "." + method.getName()));
+        }));
     AnnotationWrapper annotationWrapper = null;
     if (databaseId != null) {
       annotationWrapper = statementAnnotations.get(databaseId);
@@ -682,9 +661,9 @@ public class MapperAnnotationBuilder {
     if (errorIfNoMatch && annotationWrapper == null && !statementAnnotations.isEmpty()) {
       // Annotations exist, but there is no matching one for the specified databaseId
       throw new BuilderException(
-              String.format(
-                      "Could not find a statement annotation that correspond a current database or default statement on method '%s.%s'. Current database id is [%s].",
-                      method.getDeclaringClass().getName(), method.getName(), databaseId));
+          String.format(
+              "Could not find a statement annotation that correspond a current database or default statement on method '%s.%s'. Current database id is [%s].",
+              method.getDeclaringClass().getName(), method.getName(), databaseId));
     }
     return Optional.ofNullable(annotationWrapper);
   }
@@ -700,44 +679,34 @@ public class MapperAnnotationBuilder {
       if (annotation instanceof Select) {
         databaseId = ((Select) annotation).databaseId();
         sqlCommandType = SqlCommandType.SELECT;
-      }
-      else if (annotation instanceof Update) {
+      } else if (annotation instanceof Update) {
         databaseId = ((Update) annotation).databaseId();
         sqlCommandType = SqlCommandType.UPDATE;
-      }
-      else if (annotation instanceof Insert) {
+      } else if (annotation instanceof Insert) {
         databaseId = ((Insert) annotation).databaseId();
         sqlCommandType = SqlCommandType.INSERT;
-      }
-      else if (annotation instanceof Delete) {
+      } else if (annotation instanceof Delete) {
         databaseId = ((Delete) annotation).databaseId();
         sqlCommandType = SqlCommandType.DELETE;
-      }
-      else if (annotation instanceof SelectProvider) {
+      } else if (annotation instanceof SelectProvider) {
         databaseId = ((SelectProvider) annotation).databaseId();
         sqlCommandType = SqlCommandType.SELECT;
-      }
-      else if (annotation instanceof UpdateProvider) {
+      } else if (annotation instanceof UpdateProvider) {
         databaseId = ((UpdateProvider) annotation).databaseId();
         sqlCommandType = SqlCommandType.UPDATE;
-      }
-      else if (annotation instanceof InsertProvider) {
+      } else if (annotation instanceof InsertProvider) {
         databaseId = ((InsertProvider) annotation).databaseId();
         sqlCommandType = SqlCommandType.INSERT;
-      }
-      else if (annotation instanceof DeleteProvider) {
+      } else if (annotation instanceof DeleteProvider) {
         databaseId = ((DeleteProvider) annotation).databaseId();
         sqlCommandType = SqlCommandType.DELETE;
-      }
-      else {
+      } else {
         sqlCommandType = SqlCommandType.UNKNOWN;
         if (annotation instanceof Options) {
           databaseId = ((Options) annotation).databaseId();
-        }
-        else if (annotation instanceof SelectKey) {
+        } else if (annotation instanceof SelectKey) {
           databaseId = ((SelectKey) annotation).databaseId();
-        }
-        else {
+        } else {
           databaseId = "";
         }
       }

@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,11 +14,6 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.type;
-
-import org.apache.ibatis.binding.MapperMethod.ParamMap;
-import org.apache.ibatis.io.ResolverUtil;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.Configuration;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -47,6 +42,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
+import org.apache.ibatis.io.ResolverUtil;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.Configuration;
 
 /**
  * @author Clinton Begin
@@ -182,7 +182,6 @@ public final class TypeHandlerRegistry {
   /**
    * Set a default {@link TypeHandler} class for {@link Enum}.
    * A default {@link TypeHandler} is {@link org.apache.ibatis.type.EnumTypeHandler}.
-   *
    * @param typeHandler a type handler class for {@link Enum}
    * @since 3.4.5
    */
@@ -265,8 +264,7 @@ public final class TypeHandlerRegistry {
           register(enumClass, getInstance(enumClass, defaultEnumTypeHandler));
           return typeHandlerMap.get(enumClass);
         }
-      }
-      else {
+      } else {
         jdbcHandlerMap = getJdbcHandlerMapForSuperclass(clazz);
       }
     }
@@ -301,8 +299,7 @@ public final class TypeHandlerRegistry {
     Map<JdbcType, TypeHandler<?>> jdbcHandlerMap = typeHandlerMap.get(superclass);
     if (jdbcHandlerMap != null) {
       return jdbcHandlerMap;
-    }
-    else {
+    } else {
       return getJdbcHandlerMapForSuperclass(superclass);
     }
   }
@@ -312,8 +309,7 @@ public final class TypeHandlerRegistry {
     for (TypeHandler<?> handler : jdbcHandlerMap.values()) {
       if (soleHandler == null) {
         soleHandler = handler;
-      }
-      else if (!handler.getClass().equals(soleHandler.getClass())) {
+      } else if (!handler.getClass().equals(soleHandler.getClass())) {
         // More than one type handlers registered.
         return null;
       }
@@ -351,8 +347,7 @@ public final class TypeHandlerRegistry {
         TypeReference<T> typeReference = (TypeReference<T>) typeHandler;
         register(typeReference.getRawType(), typeHandler);
         mappedTypeFound = true;
-      }
-      catch (Throwable t) {
+      } catch (Throwable t) {
         // maybe users define the TypeReference with a different type and are not assignable, so just ignore it
       }
     }
@@ -376,8 +371,7 @@ public final class TypeHandlerRegistry {
       if (mappedJdbcTypes.includeNullJdbcType()) {
         register(javaType, null, typeHandler);
       }
-    }
-    else {
+    } else {
       register(javaType, null, typeHandler);
     }
   }
@@ -450,19 +444,16 @@ public final class TypeHandlerRegistry {
       try {
         Constructor<?> c = typeHandlerClass.getConstructor(Class.class);
         return (TypeHandler<T>) c.newInstance(javaTypeClass);
-      }
-      catch (NoSuchMethodException ignored) {
+      } catch (NoSuchMethodException ignored) {
         // ignored
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         throw new TypeException("Failed invoking constructor for handler " + typeHandlerClass, e);
       }
     }
     try {
       Constructor<?> c = typeHandlerClass.getConstructor();
       return (TypeHandler<T>) c.newInstance();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new TypeException("Unable to find a usable constructor for " + typeHandlerClass, e);
     }
   }

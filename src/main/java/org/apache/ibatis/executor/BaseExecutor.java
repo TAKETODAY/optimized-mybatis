@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,14 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.executor;
+
+import static org.apache.ibatis.executor.ExecutionPlaceholder.EXECUTION_PLACEHOLDER;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.cache.impl.PerpetualCache;
@@ -35,14 +43,6 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import static org.apache.ibatis.executor.ExecutionPlaceholder.EXECUTION_PLACEHOLDER;
 
 /**
  * @author Clinton Begin
@@ -85,18 +85,15 @@ public abstract class BaseExecutor implements Executor {
     try {
       try {
         rollback(forceRollback);
-      }
-      finally {
+      } finally {
         if (transaction != null) {
           transaction.close();
         }
       }
-    }
-    catch (SQLException e) {
+    } catch (SQLException e) {
       // Ignore. There's nothing that can be done at this point.
       log.warn("Unexpected exception on closing transaction.  Cause: " + e);
-    }
-    finally {
+    } finally {
       transaction = null;
       deferredLoads = null;
       localCache = null;
@@ -155,12 +152,10 @@ public abstract class BaseExecutor implements Executor {
       list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
-      }
-      else {
+      } else {
         list = queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);
       }
-    }
-    finally {
+    } finally {
       queryStack--;
     }
     if (queryStack == 0) {
@@ -191,8 +186,7 @@ public abstract class BaseExecutor implements Executor {
     DeferredLoad deferredLoad = new DeferredLoad(resultObject, property, key, localCache, configuration, targetType);
     if (deferredLoad.canLoad()) {
       deferredLoad.load();
-    }
-    else {
+    } else {
       deferredLoads.add(new DeferredLoad(resultObject, property, key, localCache, configuration, targetType));
     }
   }
@@ -216,14 +210,11 @@ public abstract class BaseExecutor implements Executor {
         String propertyName = parameterMapping.getProperty();
         if (boundSql.hasAdditionalParameter(propertyName)) {
           value = boundSql.getAdditionalParameter(propertyName);
-        }
-        else if (parameterObject == null) {
+        } else if (parameterObject == null) {
           value = null;
-        }
-        else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
+        } else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
           value = parameterObject;
-        }
-        else {
+        } else {
           MetaObject metaObject = configuration.newMetaObject(parameterObject);
           value = metaObject.getValue(propertyName);
         }
@@ -260,8 +251,7 @@ public abstract class BaseExecutor implements Executor {
       try {
         clearLocalCache();
         flushStatements(true);
-      }
-      finally {
+      } finally {
         if (required) {
           transaction.rollback();
         }
@@ -282,17 +272,16 @@ public abstract class BaseExecutor implements Executor {
   protected abstract List<BatchResult> doFlushStatements(boolean isRollback) throws SQLException;
 
   protected abstract <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql)
-          throws SQLException;
+      throws SQLException;
 
   protected abstract <E> Cursor<E> doQueryCursor(MappedStatement ms, Object parameter, RowBounds rowBounds, BoundSql boundSql)
-          throws SQLException;
+      throws SQLException;
 
   protected void closeStatement(Statement statement) {
     if (statement != null) {
       try {
         statement.close();
-      }
-      catch (SQLException e) {
+      } catch (SQLException e) {
         // ignore
       }
     }
@@ -301,10 +290,12 @@ public abstract class BaseExecutor implements Executor {
   /**
    * Apply a transaction timeout.
    *
-   * @param statement a current statement
-   * @throws SQLException if a database access error occurs, this method is called on a closed <code>Statement</code>
-   * @see StatementUtil#applyTransactionTimeout(Statement, Integer, Integer)
+   * @param statement
+   *          a current statement
+   * @throws SQLException
+   *           if a database access error occurs, this method is called on a closed <code>Statement</code>
    * @since 3.4.0
+   * @see StatementUtil#applyTransactionTimeout(Statement, Integer, Integer)
    */
   protected void applyTransactionTimeout(Statement statement) throws SQLException {
     StatementUtil.applyTransactionTimeout(statement, statement.getQueryTimeout(), transaction.getTimeout());
@@ -332,8 +323,7 @@ public abstract class BaseExecutor implements Executor {
     localCache.putObject(key, EXECUTION_PLACEHOLDER);
     try {
       list = doQuery(ms, parameter, rowBounds, resultHandler, boundSql);
-    }
-    finally {
+    } finally {
       localCache.removeObject(key);
     }
     localCache.putObject(key, list);
@@ -347,8 +337,7 @@ public abstract class BaseExecutor implements Executor {
     Connection connection = transaction.getConnection();
     if (statementLog.isDebugEnabled()) {
       return ConnectionLogger.newInstance(connection, statementLog, queryStack);
-    }
-    else {
+    } else {
       return connection;
     }
   }

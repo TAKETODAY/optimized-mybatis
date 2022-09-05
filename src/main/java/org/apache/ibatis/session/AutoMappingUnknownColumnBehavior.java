@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,8 +22,8 @@ import org.apache.ibatis.mapping.MappedStatement;
 /**
  * Specify the behavior when detects an unknown column (or unknown property type) of automatic mapping target.
  *
- * @author Kazuki Shimizu
  * @since 3.4.0
+ * @author Kazuki Shimizu
  */
 public enum AutoMappingUnknownColumnBehavior {
 
@@ -61,12 +61,11 @@ public enum AutoMappingUnknownColumnBehavior {
 
   /**
    * Perform the action when detects an unknown column (or unknown property type) of automatic mapping target.
-   *
    * @param mappedStatement current mapped statement
    * @param columnName column name for mapping target
    * @param propertyName property name for mapping target
    * @param propertyType property type for mapping target (If this argument is not null, {@link org.apache.ibatis.type.TypeHandler} for property type is not registered)
-   */
+     */
   public abstract void doAction(MappedStatement mappedStatement, String columnName, String propertyName, Class<?> propertyType);
 
   /**
@@ -74,14 +73,14 @@ public enum AutoMappingUnknownColumnBehavior {
    */
   private static String buildMessage(MappedStatement mappedStatement, String columnName, String property, Class<?> propertyType) {
     return new StringBuilder("Unknown column is detected on '")
-            .append(mappedStatement.getId())
-            .append("' auto-mapping. Mapping parameters are ")
-            .append("[")
-            .append("columnName=").append(columnName)
-            .append(",").append("propertyName=").append(property)
-            .append(",").append("propertyType=").append(propertyType != null ? propertyType.getName() : null)
-            .append("]")
-            .toString();
+      .append(mappedStatement.getId())
+      .append("' auto-mapping. Mapping parameters are ")
+      .append("[")
+      .append("columnName=").append(columnName)
+      .append(",").append("propertyName=").append(property)
+      .append(",").append("propertyType=").append(propertyType != null ? propertyType.getName() : null)
+      .append("]")
+      .toString();
   }
 
   private static class LogHolder {

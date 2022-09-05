@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,9 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.executor;
+
+import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheKey;
@@ -28,9 +31,6 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
-
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author Clinton Begin
@@ -57,12 +57,10 @@ public class CachingExecutor implements Executor {
       // issues #499, #524 and #573
       if (forceRollback) {
         tcm.rollback();
-      }
-      else {
+      } else {
         tcm.commit();
       }
-    }
-    finally {
+    } finally {
       delegate.close(forceRollback);
     }
   }
@@ -93,7 +91,7 @@ public class CachingExecutor implements Executor {
 
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)
-          throws SQLException {
+      throws SQLException {
     Cache cache = ms.getCache();
     if (cache != null) {
       flushCacheIfRequired(ms);
@@ -126,8 +124,7 @@ public class CachingExecutor implements Executor {
   public void rollback(boolean required) throws SQLException {
     try {
       delegate.rollback(required);
-    }
-    finally {
+    } finally {
       if (required) {
         tcm.rollback();
       }

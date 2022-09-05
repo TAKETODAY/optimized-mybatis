@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.mapping;
 
+import java.sql.ResultSet;
+
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-
-import java.sql.ResultSet;
 
 /**
  * @author Clinton Begin
@@ -43,7 +43,7 @@ public class ParameterMapping {
   }
 
   public static class Builder {
-    private final ParameterMapping parameterMapping = new ParameterMapping();
+    private ParameterMapping parameterMapping = new ParameterMapping();
 
     public Builder(Configuration configuration, String property, TypeHandler<?> typeHandler) {
       parameterMapping.configuration = configuration;
@@ -109,15 +109,14 @@ public class ParameterMapping {
       if (ResultSet.class.equals(parameterMapping.javaType)) {
         if (parameterMapping.resultMapId == null) {
           throw new IllegalStateException("Missing resultmap in property '"
-                  + parameterMapping.property + "'.  "
-                  + "Parameters of type java.sql.ResultSet require a resultmap.");
+              + parameterMapping.property + "'.  "
+              + "Parameters of type java.sql.ResultSet require a resultmap.");
         }
-      }
-      else {
+      } else {
         if (parameterMapping.typeHandler == null) {
           throw new IllegalStateException("Type handler was null on parameter mapping for property '"
-                  + parameterMapping.property + "'. It was either not specified and/or could not be found for the javaType ("
-                  + parameterMapping.javaType.getName() + ") : jdbcType (" + parameterMapping.jdbcType + ") combination.");
+            + parameterMapping.property + "'. It was either not specified and/or could not be found for the javaType ("
+            + parameterMapping.javaType.getName() + ") : jdbcType (" + parameterMapping.jdbcType + ") combination.");
         }
       }
     }

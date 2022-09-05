@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,9 +15,9 @@
  */
 package org.apache.ibatis.reflection.property;
 
-import org.apache.ibatis.reflection.ReflectionException;
-
 import java.util.Locale;
+
+import org.apache.ibatis.reflection.ReflectionException;
 
 /**
  * @author Clinton Begin
@@ -31,11 +31,9 @@ public final class PropertyNamer {
   public static String methodToProperty(String name) {
     if (name.startsWith("is")) {
       name = name.substring(2);
-    }
-    else if (name.startsWith("get") || name.startsWith("set")) {
+    } else if (name.startsWith("get") || name.startsWith("set")) {
       name = name.substring(3);
-    }
-    else {
+    } else {
       throw new ReflectionException("Error parsing property name '" + name + "'.  Didn't start with 'is', 'get' or 'set'.");
     }
 

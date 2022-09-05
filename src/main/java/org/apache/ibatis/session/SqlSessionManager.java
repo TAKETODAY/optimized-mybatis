@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +14,6 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.session;
-
-import org.apache.ibatis.cursor.Cursor;
-import org.apache.ibatis.executor.BatchResult;
-import org.apache.ibatis.reflection.ExceptionUtil;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -28,6 +24,10 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.ibatis.cursor.Cursor;
+import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * @author Larry Meadors
@@ -42,9 +42,9 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
   private SqlSessionManager(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
     this.sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(
-            SqlSessionFactory.class.getClassLoader(),
-            new Class[] { SqlSession.class },
-            new SqlSessionInterceptor());
+        SqlSessionFactory.class.getClassLoader(),
+        new Class[]{SqlSession.class},
+        new SqlSessionInterceptor());
   }
 
   public static SqlSessionManager newInstance(Reader reader) {
@@ -332,15 +332,14 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
     }
     try {
       sqlSession.close();
-    }
-    finally {
-      localSqlSession.set(null);
+    } finally {
+      localSqlSession.remove();
     }
   }
 
   private class SqlSessionInterceptor implements InvocationHandler {
     public SqlSessionInterceptor() {
-      // Prevent Synthetic Access
+        // Prevent Synthetic Access
     }
 
     @Override
@@ -349,19 +348,16 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
       if (sqlSession != null) {
         try {
           return method.invoke(sqlSession, args);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
           throw ExceptionUtil.unwrapThrowable(t);
         }
-      }
-      else {
+      } else {
         try (SqlSession autoSqlSession = openSession()) {
           try {
             final Object result = method.invoke(autoSqlSession, args);
             autoSqlSession.commit();
             return result;
-          }
-          catch (Throwable t) {
+          } catch (Throwable t) {
             autoSqlSession.rollback();
             throw ExceptionUtil.unwrapThrowable(t);
           }

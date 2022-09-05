@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,12 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.mapping;
+
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.ibatis.builder.InitializingObject;
 import org.apache.ibatis.cache.Cache;
@@ -27,12 +33,6 @@ import org.apache.ibatis.cache.decorators.SynchronizedCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * @author Clinton Begin
@@ -100,8 +100,7 @@ public class CacheBuilder {
         setCacheProperties(cache);
       }
       cache = setStandardDecorators(cache);
-    }
-    else if (!LoggingCache.class.isAssignableFrom(cache.getClass())) {
+    } else if (!LoggingCache.class.isAssignableFrom(cache.getClass())) {
       cache = new LoggingCache(cache);
     }
     return cache;
@@ -135,8 +134,7 @@ public class CacheBuilder {
         cache = new BlockingCache(cache);
       }
       return cache;
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new CacheException("Error building standard cache decorators.  Cause: " + e, e);
     }
   }
@@ -151,36 +149,28 @@ public class CacheBuilder {
           Class<?> type = metaCache.getSetterType(name);
           if (String.class == type) {
             metaCache.setValue(name, value);
-          }
-          else if (int.class == type
-                  || Integer.class == type) {
+          } else if (int.class == type
+              || Integer.class == type) {
             metaCache.setValue(name, Integer.valueOf(value));
-          }
-          else if (long.class == type
-                  || Long.class == type) {
+          } else if (long.class == type
+              || Long.class == type) {
             metaCache.setValue(name, Long.valueOf(value));
-          }
-          else if (short.class == type
-                  || Short.class == type) {
+          } else if (short.class == type
+              || Short.class == type) {
             metaCache.setValue(name, Short.valueOf(value));
-          }
-          else if (byte.class == type
-                  || Byte.class == type) {
+          } else if (byte.class == type
+              || Byte.class == type) {
             metaCache.setValue(name, Byte.valueOf(value));
-          }
-          else if (float.class == type
-                  || Float.class == type) {
+          } else if (float.class == type
+              || Float.class == type) {
             metaCache.setValue(name, Float.valueOf(value));
-          }
-          else if (boolean.class == type
-                  || Boolean.class == type) {
+          } else if (boolean.class == type
+              || Boolean.class == type) {
             metaCache.setValue(name, Boolean.valueOf(value));
-          }
-          else if (double.class == type
-                  || Double.class == type) {
+          } else if (double.class == type
+              || Double.class == type) {
             metaCache.setValue(name, Double.valueOf(value));
-          }
-          else {
+          } else {
             throw new CacheException("Unsupported property type for cache: '" + name + "' of type " + type);
           }
         }
@@ -189,10 +179,9 @@ public class CacheBuilder {
     if (InitializingObject.class.isAssignableFrom(cache.getClass())) {
       try {
         ((InitializingObject) cache).initialize();
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         throw new CacheException("Failed cache initialization for '"
-                + cache.getId() + "' on '" + cache.getClass().getName() + "'", e);
+          + cache.getId() + "' on '" + cache.getClass().getName() + "'", e);
       }
     }
   }
@@ -201,8 +190,7 @@ public class CacheBuilder {
     Constructor<? extends Cache> cacheConstructor = getBaseCacheConstructor(cacheClass);
     try {
       return cacheConstructor.newInstance(id);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new CacheException("Could not instantiate cache implementation (" + cacheClass + "). Cause: " + e, e);
     }
   }
@@ -210,10 +198,9 @@ public class CacheBuilder {
   private Constructor<? extends Cache> getBaseCacheConstructor(Class<? extends Cache> cacheClass) {
     try {
       return cacheClass.getConstructor(String.class);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new CacheException("Invalid base cache implementation (" + cacheClass + ").  "
-              + "Base cache implementations must have a constructor that takes a String id as a parameter.  Cause: " + e, e);
+        + "Base cache implementations must have a constructor that takes a String id as a parameter.  Cause: " + e, e);
     }
   }
 
@@ -221,8 +208,7 @@ public class CacheBuilder {
     Constructor<? extends Cache> cacheConstructor = getCacheDecoratorConstructor(cacheClass);
     try {
       return cacheConstructor.newInstance(base);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new CacheException("Could not instantiate cache decorator (" + cacheClass + "). Cause: " + e, e);
     }
   }
@@ -230,10 +216,9 @@ public class CacheBuilder {
   private Constructor<? extends Cache> getCacheDecoratorConstructor(Class<? extends Cache> cacheClass) {
     try {
       return cacheClass.getConstructor(Cache.class);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new CacheException("Invalid cache decorator (" + cacheClass + ").  "
-              + "Cache decorators must have a constructor that takes a Cache instance as a parameter.  Cause: " + e, e);
+        + "Cache decorators must have a constructor that takes a Cache instance as a parameter.  Cause: " + e, e);
     }
   }
 }

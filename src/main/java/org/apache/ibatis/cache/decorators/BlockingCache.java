@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.cache.decorators;
 
-import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.cache.CacheException;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.cache.CacheException;
 
 /**
  * <p>Simple blocking decorator
@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
  * <p>By its nature, this implementation can cause deadlock when used incorrectly.
  *
  * @author Eduardo Macarron
+ *
  */
 public class BlockingCache implements Cache {
 
@@ -58,8 +59,7 @@ public class BlockingCache implements Cache {
   public void putObject(Object key, Object value) {
     try {
       delegate.putObject(key, value);
-    }
-    finally {
+    } finally {
       releaseLock(key);
     }
   }
@@ -76,7 +76,7 @@ public class BlockingCache implements Cache {
 
   @Override
   public Object removeObject(Object key) {
-    // despite of its name, this method is called only to release locks
+    // despite its name, this method is called only to release locks
     releaseLock(key);
     return null;
   }
@@ -98,15 +98,12 @@ public class BlockingCache implements Cache {
           boolean acquired = latch.await(timeout, TimeUnit.MILLISECONDS);
           if (!acquired) {
             throw new CacheException(
-                    "Couldn't get a lock in " + timeout + " for the key " + key + " at the cache " + delegate.getId());
+                "Couldn't get a lock in " + timeout + " for the key " + key + " at the cache " + delegate.getId());
           }
-        }
-        else {
+        } else {
           latch.await();
         }
-      }
-      catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
+      } catch (InterruptedException e) {
         throw new CacheException("Got interrupted while trying to acquire lock for key " + key, e);
       }
     }

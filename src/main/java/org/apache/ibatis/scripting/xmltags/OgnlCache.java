@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,18 +15,19 @@
  */
 package org.apache.ibatis.scripting.xmltags;
 
-import org.apache.ibatis.builder.BuilderException;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ognl.Ognl;
 import ognl.OgnlException;
 
+import org.apache.ibatis.builder.BuilderException;
+
 /**
  * Caches OGNL parsed expressions.
  *
  * @author Eduardo Macarron
+ *
  * @see <a href='https://github.com/mybatis/old-google-code-issues/issues/342'>Issue 342</a>
  */
 public final class OgnlCache {
@@ -43,8 +44,7 @@ public final class OgnlCache {
     try {
       Map context = Ognl.createDefaultContext(root, MEMBER_ACCESS, CLASS_RESOLVER, null);
       return Ognl.getValue(parseExpression(expression), context, root);
-    }
-    catch (OgnlException e) {
+    } catch (OgnlException e) {
       throw new BuilderException("Error evaluating expression '" + expression + "'. Cause: " + e, e);
     }
   }

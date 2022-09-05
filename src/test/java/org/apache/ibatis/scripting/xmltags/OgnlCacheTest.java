@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,5 +49,13 @@ class OgnlCacheTest {
       assertNotNull(futures.get(i).get());
     }
     executor.shutdown();
+  }
+
+  @Test
+  void issue2609() throws Exception {
+    Map<String, Object> context = new HashMap<>();
+    context.put("d1", java.sql.Date.valueOf("2022-01-01"));
+    context.put("d2", java.sql.Date.valueOf("2022-01-02"));
+    assertEquals(-1, OgnlCache.getValue("d1.compareTo(d2)", context));
   }
 }

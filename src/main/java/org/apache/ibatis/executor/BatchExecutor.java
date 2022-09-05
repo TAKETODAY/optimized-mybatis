@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,14 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.executor;
+
+import java.sql.BatchUpdateException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
@@ -26,14 +34,6 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
-
-import java.sql.BatchUpdateException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Jeff Butler
@@ -65,8 +65,7 @@ public class BatchExecutor extends BaseExecutor {
       handler.parameterize(stmt);// fix Issues 322
       BatchResult batchResult = batchResultList.get(last);
       batchResult.addParameterObject(parameterObject);
-    }
-    else {
+    } else {
       Connection connection = getConnection(ms.getStatementLog());
       stmt = handler.prepare(connection, transaction.getTimeout());
       handler.parameterize(stmt);    // fix Issues 322
@@ -81,7 +80,7 @@ public class BatchExecutor extends BaseExecutor {
 
   @Override
   public <E> List<E> doQuery(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql)
-          throws SQLException {
+      throws SQLException {
     Statement stmt = null;
     try {
       flushStatements();
@@ -91,8 +90,7 @@ public class BatchExecutor extends BaseExecutor {
       stmt = handler.prepare(connection, transaction.getTimeout());
       handler.parameterize(stmt);
       return handler.query(stmt, resultHandler);
-    }
-    finally {
+    } finally {
       closeStatement(stmt);
     }
   }
@@ -129,34 +127,31 @@ public class BatchExecutor extends BaseExecutor {
           if (Jdbc3KeyGenerator.class.equals(keyGenerator.getClass())) {
             Jdbc3KeyGenerator jdbc3KeyGenerator = (Jdbc3KeyGenerator) keyGenerator;
             jdbc3KeyGenerator.processBatch(ms, stmt, parameterObjects);
-          }
-          else if (!NoKeyGenerator.class.equals(keyGenerator.getClass())) { //issue #141
+          } else if (!NoKeyGenerator.class.equals(keyGenerator.getClass())) { //issue #141
             for (Object parameter : parameterObjects) {
               keyGenerator.processAfter(this, ms, stmt, parameter);
             }
           }
           // Close statement to close cursor #1109
           closeStatement(stmt);
-        }
-        catch (BatchUpdateException e) {
+        } catch (BatchUpdateException e) {
           StringBuilder message = new StringBuilder();
           message.append(batchResult.getMappedStatement().getId())
-                  .append(" (batch index #")
-                  .append(i + 1)
-                  .append(")")
-                  .append(" failed.");
+              .append(" (batch index #")
+              .append(i + 1)
+              .append(")")
+              .append(" failed.");
           if (i > 0) {
             message.append(" ")
-                    .append(i)
-                    .append(" prior sub executor(s) completed successfully, but will be rolled back.");
+                .append(i)
+                .append(" prior sub executor(s) completed successfully, but will be rolled back.");
           }
           throw new BatchExecutorException(message.toString(), e, results, batchResult);
         }
         results.add(batchResult);
       }
       return results;
-    }
-    finally {
+    } finally {
       for (Statement stmt : statementList) {
         closeStatement(stmt);
       }

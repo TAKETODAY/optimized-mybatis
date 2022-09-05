@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,9 +15,6 @@
  */
 package org.apache.ibatis.plugin;
 
-import org.apache.ibatis.reflection.ExceptionUtil;
-import org.apache.ibatis.util.MapUtil;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -25,6 +22,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.ibatis.reflection.ExceptionUtil;
+import org.apache.ibatis.util.MapUtil;
 
 /**
  * @author Clinton Begin
@@ -47,9 +47,9 @@ public class Plugin implements InvocationHandler {
     Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
     if (interfaces.length > 0) {
       return Proxy.newProxyInstance(
-              type.getClassLoader(),
-              interfaces,
-              new Plugin(target, interceptor, signatureMap));
+          type.getClassLoader(),
+          interfaces,
+          new Plugin(target, interceptor, signatureMap));
     }
     return target;
   }
@@ -62,8 +62,7 @@ public class Plugin implements InvocationHandler {
         return interceptor.intercept(new Invocation(target, method, args));
       }
       return method.invoke(target, args);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw ExceptionUtil.unwrapThrowable(e);
     }
   }
@@ -81,8 +80,7 @@ public class Plugin implements InvocationHandler {
       try {
         Method method = sig.type().getMethod(sig.method(), sig.args());
         methods.add(method);
-      }
-      catch (NoSuchMethodException e) {
+      } catch (NoSuchMethodException e) {
         throw new PluginException("Could not find method on " + sig.type() + " named " + sig.method() + ". Cause: " + e, e);
       }
     }

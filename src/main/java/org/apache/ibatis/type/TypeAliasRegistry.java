@@ -1,11 +1,11 @@
 /*
- *    Copyright 2021-2022 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,9 +14,6 @@
  *    limitations under the License.
  */
 package org.apache.ibatis.type;
-
-import org.apache.ibatis.io.ResolverUtil;
-import org.apache.ibatis.io.Resources;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -32,6 +29,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.ibatis.io.ResolverUtil;
+import org.apache.ibatis.io.Resources;
+
 /**
  * @author Clinton Begin
  */
@@ -43,6 +43,8 @@ public class TypeAliasRegistry {
     registerAlias("string", String.class);
 
     registerAlias("byte", Byte.class);
+    registerAlias("char", Character.class);
+    registerAlias("character", Character.class);
     registerAlias("long", Long.class);
     registerAlias("short", Short.class);
     registerAlias("int", Integer.class);
@@ -52,6 +54,8 @@ public class TypeAliasRegistry {
     registerAlias("boolean", Boolean.class);
 
     registerAlias("byte[]", Byte[].class);
+    registerAlias("char[]", Character[].class);
+    registerAlias("character[]", Character[].class);
     registerAlias("long[]", Long[].class);
     registerAlias("short[]", Short[].class);
     registerAlias("int[]", Integer[].class);
@@ -61,6 +65,8 @@ public class TypeAliasRegistry {
     registerAlias("boolean[]", Boolean[].class);
 
     registerAlias("_byte", byte.class);
+    registerAlias("_char", char.class);
+    registerAlias("_character", char.class);
     registerAlias("_long", long.class);
     registerAlias("_short", short.class);
     registerAlias("_int", int.class);
@@ -70,6 +76,8 @@ public class TypeAliasRegistry {
     registerAlias("_boolean", boolean.class);
 
     registerAlias("_byte[]", byte[].class);
+    registerAlias("_char[]", char[].class);
+    registerAlias("_character[]", char[].class);
     registerAlias("_long[]", long[].class);
     registerAlias("_short[]", short[].class);
     registerAlias("_int[]", int[].class);
@@ -112,13 +120,11 @@ public class TypeAliasRegistry {
       Class<T> value;
       if (typeAliases.containsKey(key)) {
         value = (Class<T>) typeAliases.get(key);
-      }
-      else {
+      } else {
         value = (Class<T>) Resources.classForName(string);
       }
       return value;
-    }
-    catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException e) {
       throw new TypeException("Could not resolve type alias '" + string + "'.  Cause: " + e, e);
     }
   }
@@ -164,8 +170,7 @@ public class TypeAliasRegistry {
   public void registerAlias(String alias, String value) {
     try {
       registerAlias(alias, Resources.classForName(value));
-    }
-    catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException e) {
       throw new TypeException("Error registering type alias " + alias + " for " + value + ". Cause: " + e, e);
     }
   }
