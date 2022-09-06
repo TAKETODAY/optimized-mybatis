@@ -217,10 +217,8 @@ public class DefaultVFS extends VFS {
    *
    * @param url The URL of the JAR entry.
    * @return The URL of the JAR file, if one is found. Null if not.
-   * @throws MalformedURLException
-   *           the malformed URL exception
    */
-  protected URL findJarForResource(URL url) throws MalformedURLException {
+  protected URL findJarForResource(URL url) {
     if (log.isDebugEnabled()) {
       log.debug("Find JAR URL: " + url);
     }
@@ -269,11 +267,7 @@ public class DefaultVFS extends VFS {
 
         // File name might be URL-encoded
         if (!file.exists()) {
-          try {
-            file = new File(URLEncoder.encode(jarUrl.toString(), StandardCharsets.UTF_8.name()));
-          } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Unsupported encoding?  UTF-8?  That's impossible.");
-          }
+          file = new File(URLEncoder.encode(jarUrl.toString(), StandardCharsets.UTF_8));
         }
 
         if (file.exists()) {
