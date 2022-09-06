@@ -22,6 +22,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -223,11 +224,11 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
     } else if (param instanceof Object[]) {
       return Arrays.asList((Object[]) param);
     } else {
-      return Arrays.asList(param);
+      return Collections.singletonList(param);
     }
   }
 
-  private class KeyAssigner {
+  private static class KeyAssigner {
     private final Configuration configuration;
     private final ResultSetMetaData rsmd;
     private final TypeHandlerRegistry typeHandlerRegistry;
